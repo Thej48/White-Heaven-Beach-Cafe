@@ -1,0 +1,38 @@
+* {
+    margin: 0%;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none !important;
+    list-style-type: none;
+    scroll-behavior: smooth;
+    font-family: 'Lato', sans-serif;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+
+body {
+    display: flex;
+    height: 100svh;
+    width: 100%;
+    overflow: hidden;
+    background-color: #f8f8f8;
+}
+
+.sideNavBar{
+    height: 100svh;
+    flex-direction: column;
+}
+
+.brandLogoImg{
+    width: 65%;
+    height: auto;
+    aspect-ratio: 4/3;
+    object-fit: contain;
+}
+
+.dashboardBodyDiv{
+    height: 100svh;
+}
