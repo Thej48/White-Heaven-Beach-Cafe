@@ -38,9 +38,9 @@ if (!isset($_SESSION['authAdmin'])) {
 
                 <div class="navLinksDiv container d-flex py-3">
                     <ul class="row row-gap-4 m-0 p-0">
-                        <li class="navBarItem activeNavItem rounded">
-                            <a href="./dashboard.php" class="d-flex gap-1 align-items-center fw-medium py-2 px-2">
-                                <img src="../icons/dashboard_white.png" alt="dashboard">
+                        <li class="navBarItem">
+                            <a href="./dashboard.php" class="d-flex gap-1 align-items-center fw-medium py-1 px-2">
+                                <img src="../icons/dashboard_black.png" alt="dashboard">
                                 Dashboard
                             </a>
                         </li>
@@ -50,9 +50,9 @@ if (!isset($_SESSION['authAdmin'])) {
                                 Orders
                             </a>
                         </li>
-                        <li class="navBarItem">
-                            <a href="./tables.php" class="d-flex gap-1 align-items-center fw-medium py-1 px-2">
-                                <img src="../icons/tables_black.png" alt="tables">
+                        <li class="navBarItem activeNavItem rounded">
+                            <a href="./tables.php" class="d-flex gap-1 align-items-center fw-medium py-2 px-2">
+                                <img src="../icons/tables_white.png" alt="tables">
                                 Tables
                             </a>
                         </li>
@@ -97,22 +97,70 @@ if (!isset($_SESSION['authAdmin'])) {
                 </div>
             </div>
 
-            <div class="col-sm-10 d-flex flex-column p-2 dashboardBodyDiv">
-                <div class="bg-success container d-flex flex-column align-items-center">
-                    <h1 class="h4 fw-medium bg-warning align-self-start">Welcome, <?php echo "$adminName"; ?></h1>
-                    <div class="row row-cols-5 m-0 p-0 bg-warning">
-                        <div class="col m-2 bg-danger">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, eos odio? Hic, aperiam iusto. Laborum maxime unde eveniet ullam et.</div>
-                        <div class="col m-2 bg-info">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, eos odio? Hic, aperiam iusto. Laborum maxime unde eveniet ullam et.</div>
-                        <div class="col m-2 bg-primary">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, eos odio? Hic, aperiam iusto. Laborum maxime unde eveniet ullam et.</div>
-                        <div class="col m-2 bg-secondary">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, eos odio? Hic, aperiam iusto. Laborum maxime unde eveniet ullam et.</div>
-                        <div class="col m-2 bg-light">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, eos odio? Hic, aperiam iusto. Laborum maxime unde eveniet ullam et.</div>
+            <div class="col-sm-10 d-flex flex-column dashboardBodyDiv">
+
+                <div class="py-2 m-0 d-flex align-items-center tableHeaderControlDiv border-bottom border-dark-subtle">
+                    <h1 class="p-0 m-0 h2 w-50 fw-medium">Tables</h1>
+                    <div class="tableSearchAdd w-50 d-flex gap-3 justify-content-end">
+                        <input type="search" name="tableSearchBox" id="tableSearchBox" placeholder="Search here..." class="col-sm-8 rounded tableSearchBox">
+                        <input type="submit" value="Add Table" class="col-sm-3 rounded addTableBtn" onclick="addTableModal.showModal()">
                     </div>
                 </div>
+
+                <div class="tableCardsDiv overflow-auto py-2 d-flex flex-wrap row row-cols-auto">
+                    <div class="card p-3 shadow-sm m-2 rounded-1 col">
+                        <h1 class="h4 fw-bold p-0">Table 1</h1>
+                        <img src="../images/logo.jpg" alt="qr-image" class="tableQrImg">
+                        <div class="tableStatusDiv">
+                            <span>Status : <span>Available</span></span>
+                            <img src="../icons/toggle-off.svg" alt="table-available">
+                        </div>
+                        <div class="tableStatusDiv">
+                            <span>Status : <span>Occupied</span></span>
+                            <img src="../icons/toggle-on.svg" alt="table-available">
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
 
     </div>
+
+    <script>
+        function addTable() {
+            // Open Add Table Modal
+            addTableModal.showModal();
+
+            <?php
+            $checkTableCount = "SELECT * FROM tables ORDER BY table_number ASC";
+            $query = mysqli_query($conn, $checkTableCount);
+            $res = mysqli_num_rows($query);
+            if ($res == 0) {
+                $tablenumber = 1;
+            } else {
+                // Move the internal result pointer to the last row
+                mysqli_data_seek($query, $res - 1);
+                $row = mysqli_fetch_array($query);
+                $newtablenumber = $row['table_number'];
+                $tablenumber = $newtablenumber + 1;
+            }
+            ?>
+        }
+
+
+        function generateQRCode() {
+            window.location.href = "<?php echo "./generateQR.php?tableNo=$tablenumber" ?>";
+        }
+    </script>
+
+    <!-- ADD TABLE MODAL -->
+    <dialog class="addTableModal" id="addTableModal">
+        <h1>Do you want to add <span>Table - <?php echo "$tablenumber"; ?></span></h1>
+        <input type="submit" value="Yes" onclick="generateQRCode()">
+        <input type="submit" value="No" onclick="addTableModal.close()">
+    </dialog>
 
 </body>
 

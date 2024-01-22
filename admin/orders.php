@@ -38,15 +38,15 @@ if (!isset($_SESSION['authAdmin'])) {
 
                 <div class="navLinksDiv container d-flex py-3">
                     <ul class="row row-gap-4 m-0 p-0">
-                        <li class="navBarItem activeNavItem rounded">
-                            <a href="./dashboard.php" class="d-flex gap-1 align-items-center fw-medium py-2 px-2">
-                                <img src="../icons/dashboard_white.png" alt="dashboard">
+                        <li class="navBarItem">
+                            <a href="./dashboard.php" class="d-flex gap-1 align-items-center fw-medium py-1 px-2">
+                                <img src="../icons/dashboard_black.png" alt="dashboard">
                                 Dashboard
                             </a>
                         </li>
-                        <li class="navBarItem">
-                            <a href="./orders.php" class="d-flex gap-1 align-items-center fw-medium py-1 px-2">
-                                <img src="../icons/orders_black.png" alt="orders">
+                        <li class="navBarItem activeNavItem rounded">
+                            <a href="./orders.php" class="d-flex gap-1 align-items-center fw-medium py-2 px-2">
+                                <img src="../icons/orders_white.png" alt="orders">
                                 Orders
                             </a>
                         </li>
@@ -91,23 +91,14 @@ if (!isset($_SESSION['authAdmin'])) {
                         </div>
                     </div>
                     <button onclick="document.location.href='./logoutAdmin.php'" class="logoutBtn rounded d-flex align-items-center justify-content-center gap-1">
-                        <img src="../icons/logout_white.png" alt="Logout" class="logoutIcon">
-                        Logout
+                    <img src="../icons/logout_white.png" alt="Logout" class="logoutIcon">
+                    Logout
                     </button>
                 </div>
             </div>
 
-            <div class="col-sm-10 d-flex flex-column p-2 dashboardBodyDiv">
-                <div class="bg-success container d-flex flex-column align-items-center">
-                    <h1 class="h4 fw-medium bg-warning align-self-start">Welcome, <?php echo "$adminName"; ?></h1>
-                    <div class="row row-cols-5 m-0 p-0 bg-warning">
-                        <div class="col m-2 bg-danger">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, eos odio? Hic, aperiam iusto. Laborum maxime unde eveniet ullam et.</div>
-                        <div class="col m-2 bg-info">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, eos odio? Hic, aperiam iusto. Laborum maxime unde eveniet ullam et.</div>
-                        <div class="col m-2 bg-primary">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, eos odio? Hic, aperiam iusto. Laborum maxime unde eveniet ullam et.</div>
-                        <div class="col m-2 bg-secondary">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, eos odio? Hic, aperiam iusto. Laborum maxime unde eveniet ullam et.</div>
-                        <div class="col m-2 bg-light">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, eos odio? Hic, aperiam iusto. Laborum maxime unde eveniet ullam et.</div>
-                    </div>
-                </div>
+            <div class="col-sm-10 d-flex dashboardBodyDiv">
+                <h1 class="display-1 fw-bold">Orders</h1>
             </div>
 
         </div>
