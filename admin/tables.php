@@ -107,27 +107,96 @@ if (!isset($_SESSION['authAdmin'])) {
                     </div>
                 </div>
 
-                <div class="tableCardsDiv overflow-auto py-2 d-flex flex-wrap row row-cols-auto">
-                    <div class="card p-3 shadow-sm m-2 rounded-1 col">
-                        <h1 class="h4 fw-bold p-0">Table 1</h1>
-                        <img src="../images/logo.jpg" alt="qr-image" class="tableQrImg">
-                        <div class="tableStatusDiv">
-                            <span>Status : <span>Available</span></span>
-                            <img src="../icons/toggle-off.svg" alt="table-available">
-                        </div>
-                        <div class="tableStatusDiv">
-                            <span>Status : <span>Occupied</span></span>
-                            <img src="../icons/toggle-on.svg" alt="table-available">
-                        </div>
-                    </div>
-                </div>
+                <?php
+                $getTableQuery = "SELECT * FROM tables ORDER BY table_number";
+                $getTableRes = $conn->query($getTableQuery);
+                $table_number = array();
 
+                if ($getTableRes->num_rows > 0) {
+                ?>
+                    <div class="tableCardsDiv overflow-auto py-2 px-3 d-flex flex-wrap row row-cols-auto ">
+                        <?php
+                        while ($row = $getTableRes->fetch_assoc()) {
+                            echo "
+                        <div class='card p-3 shadow-sm m-2 rounded-1 col tableCard'>
+                            <h1 class='h3 fw-bold p-0 m-0'>Table " . $row['table_number'] . "</h1>
+                            <hr class='my-2'/>
+                            <img src='data:image;base64," . $row['table_qr'] . "' alt='qr-image' class='tableQrImg'>
+                            <hr class='my-2'/>
+                            ";
+                            if ($row['table_status'] == 0) {
+                        ?>
+                                <div class='tableStatusDiv d-flex align-items-center justify-content-between'>
+                                    <span class="fw-bold">Status : <span class="fw-medium">Available</span></span>
+                                    <img class="tableStatusChangeBtn" src='../icons/toggle-off.svg' alt='table-available'>
+                                </div>
+                            <?php } elseif ($row['table_status'] == 1) { ?>
+                                <div class='tableStatusDiv d-flex align-items-center justify-content-between'>
+                                    <span class="fw-bold">Status : <span class="fw-medium">Occupied</span></span>
+                                    <img class="tableStatusChangeBtn" src='../icons/toggle-on.svg' alt='table-available'>
+                                </div>
+                            <?php } ?>
+                    </div>
+                <?php } ?>
             </div>
+        <?php
+                } else {
+                    echo "
+                    <div class='tableCardsDiv overflow-auto py-2 px-3 d-flex flex-column h-100 align-items-center justify-content-center'>
+                        <h1 class='h2 fw-bolder text-decoration-underline'>Nothing to Show</h1>
+                        <p class='h6 w-50 lh-base text-center'>We're sorry, but it looks like there are no details available for the tables at the moment. It's possible that there is no data to display. Please check back later.</p>
+                    </div>
+                ";
+                }
+        ?>
+
+        <div class='tableCardsDivMsg overflow-auto py-2 px-3 flex-column h-100 align-items-center justify-content-center'>
+            <h1 class='h2 fw-bolder text-decoration-underline'>Nothing to Show</h1>
+            <p class='h6 w-50 lh-base text-center'>We're sorry, but it looks like there are no details available for the tables at the moment. It's possible that there is no data to display. Please check back later.</p>
+        </div>
 
         </div>
 
     </div>
 
+    </div>
+
+    <!-- SEARCH BAR SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableSearchBox = document.getElementById('tableSearchBox');
+            const tableCardsDiv = document.querySelector('.tableCardsDiv');
+            const tableCardsDivMsg = document.querySelector('.tableCardsDivMsg');
+
+            tableSearchBox.addEventListener('input', function() {
+                const searchValue = tableSearchBox.value.trim().toLowerCase();
+                const cards = document.querySelectorAll('.tableCard');
+
+                let matchFound = false;
+
+                cards.forEach(function(card) {
+                    const cardText = card.innerText.toLowerCase();
+
+                    if (cardText.includes(searchValue)) {
+                        card.style.display = 'block';
+                        matchFound = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                if (matchFound) {
+                    tableCardsDivMsg.style.display = 'none';
+                } else {
+                    tableCardsDivMsg.style.display = 'flex';
+                }
+
+            });
+        });
+    </script>
+
+
+    <!-- ADD NEW TABLE -->
     <script>
         function addTable() {
             // Open Add Table Modal

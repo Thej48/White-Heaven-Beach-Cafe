@@ -136,12 +136,26 @@ body {
     color: rgb(203, 203, 203);
 }
 
+.tableCard{
+    border: none;
+}
+
+.tableStatusChangeBtn{
+    cursor: pointer;
+    height: 24px !important;
+    width: 40px !important;
+}
+
+.tableCardsDivMsg{
+    display: none;
+}
+
 .tableQrImg{
     width: 200px !important;
     height: 200px !important;
     aspect-ratio: 1;
     object-fit: contain;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 /* ☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢ */
