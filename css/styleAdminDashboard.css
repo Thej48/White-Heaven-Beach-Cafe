@@ -155,7 +155,53 @@ body {
     height: 200px !important;
     aspect-ratio: 1;
     object-fit: contain;
+    mix-blend-mode: multiply;
     /* border: 1px solid red; */
+}
+
+.addTableModal{
+    width: 55%;
+    height: 40%;
+    position: relative;
+    right: auto;
+    top: 30%;
+    left: 22%;
+    bottom: auto;
+    padding: 3%;
+}
+
+.addTableModal::backdrop {
+    backdrop-filter: blur(5px);
+}
+
+.addTableConfirmBtn{
+    background-color: #262626;
+    color: white;
+    padding: 7px 0;
+    font-size: large;
+    font-weight: 400;
+    letter-spacing: 1px;
+    border: 2px inset white;
+}
+
+.addTableConfirmBtn:active{
+    border: 2px outset white;
+    color: rgb(203, 203, 203);
+}
+
+.addTableCancelBtn{
+    background-color: transparent;
+    color: black;
+    padding: 7px 0;
+    font-size: large;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border: 2px inset grey;
+}
+
+.addTableCancelBtn:active{
+    border: 2px outset grey;
+    color: #262626;
 }
 
 /* ☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢ */
