@@ -156,6 +156,7 @@ body {
     aspect-ratio: 1;
     object-fit: contain;
     mix-blend-mode: multiply;
+    cursor: pointer;
     /* border: 1px solid red; */
 }
 
@@ -200,6 +201,58 @@ body {
 }
 
 .addTableCancelBtn:active{
+    border: 2px outset grey;
+    color: #262626;
+}
+
+.qrDownloadModal{
+    width: 50%;
+    height: 70%;
+    position: relative;
+    right: auto;
+    top: 15%;
+    left: 25%;
+    bottom: auto;
+}
+
+.qrDownloadModal::backdrop {
+    backdrop-filter: blur(5px);
+}
+
+.modalQrImage{
+    width: 250px !important;
+    height: 250px !important;
+    aspect-ratio: 1;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+
+.downloadQrBtn{
+    background-color: #262626;
+    color: white;
+    padding: 7px 0;
+    font-size: large;
+    font-weight: 400;
+    letter-spacing: 1px;
+    border: 2px inset white;
+}
+
+.downloadQrBtn:active{
+    border: 2px outset white;
+    color: rgb(203, 203, 203);
+}
+
+.downloadQrCancelBtn{
+    background-color: transparent;
+    color: black;
+    padding: 7px 0;
+    font-size: large;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border: 2px inset grey;
+}
+
+.downloadQrCancelBtn:active{
     border: 2px outset grey;
     color: #262626;
 }

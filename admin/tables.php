@@ -125,7 +125,7 @@ if (!isset($_SESSION['authAdmin'])) {
                                 echo "
                             <h1 class='h3 fw-bold p-0 m-0'>Table " . $row['table_number'] . "</h1>
                             <hr class='my-2'/>
-                            <img src='data:image;base64," . $row['table_qr'] . "' alt='qr-image' class='tableQrImg'>
+                            <img src='data:image;base64," . $row['table_qr'] . "' alt='qr-image' class='tableQrImg' onClick='openQrModal(\"" . $row['table_qr'] . "\", \"" . $row['table_number'] . "\")'>
                             <hr class='my-2'/>
                             ";
                                 if ($row['table_status'] == 0) {
@@ -171,6 +171,7 @@ if (!isset($_SESSION['authAdmin'])) {
 
         </div>
 
+
         <!-- SCRIPT TO UPDATE TABLE_STATUS -->
         <script>
             // Change table_status to 1
@@ -179,9 +180,12 @@ if (!isset($_SESSION['authAdmin'])) {
                 $tableResId = $_GET['reserveId'];
                 $reserveTableQuery = "UPDATE tables SET table_status = '1' WHERE id=$tableResId ";
                 $reserveTableRun = mysqli_query($conn, $reserveTableQuery);
-                if ($reserveTableRun) {
-            ?>
+                if ($reserveTableRun) { ?>
                     window.location.href = './tables.php#<?php echo $tableResId ?>';
+                <?php
+                } else {
+                ?>
+                    window.location.href = './tables.php';
                 <?php
                 }
                 // Change table_status to 0
@@ -191,14 +195,19 @@ if (!isset($_SESSION['authAdmin'])) {
                 $tableFreeId = $_GET['freeId'];
                 $freeTableQuery = "UPDATE tables SET table_status = '0' WHERE id=$tableFreeId ";
                 $freeTableRun = mysqli_query($conn, $freeTableQuery);
-                if ($freeTableRun) {
-                ?>
+                if ($freeTableRun) { ?>
                     window.location.href = './tables.php#<?php echo $tableFreeId ?>';
+                <?php
+                } else {
+                ?>
+                    window.location.href = './tables.php';
             <?php
                 }
             }
             ?>
         </script>
+
+
 
         <!-- SEARCH BAR SCRIPT -->
         <script>
@@ -235,6 +244,7 @@ if (!isset($_SESSION['authAdmin'])) {
         </script>
 
 
+
         <!-- ADD NEW TABLE -->
         <script>
             function addTable() {
@@ -257,19 +267,119 @@ if (!isset($_SESSION['authAdmin'])) {
                 ?>
             }
 
-
             function generateQRCode() {
                 window.location.href = "<?php echo "./generateQR.php?tableNo=$tablenumber" ?>";
             }
         </script>
 
+
+
+        <!-- OPEN QR-DOWNLOAD MODAL AND SET IMAGE AND TABLE NUMBER -->
+        <script>
+            var tableName;
+
+            function openQrModal(qrImageData, tableNameValue) {
+
+                tableName = tableNameValue;
+
+                var qrDownloadModal = document.getElementById('qrDownloadModal');
+                var qrImage = qrDownloadModal.querySelector('.modalQrImage');
+                var tableNameSpan = qrDownloadModal.querySelector('#modalTableName');
+
+                // Create a temporary canvas
+                var canvas = document.createElement('canvas');
+                var context = canvas.getContext('2d');
+
+                // Create a new image element
+                var image = new Image();
+
+                // Set the source of the new image to the QR image data
+                image.src = 'data:image;base64,' + qrImageData;
+
+                // Wait for the image to load
+                image.onload = function() {
+                    // Set the canvas size to match the image
+                    canvas.width = image.width;
+                    canvas.height = image.height;
+
+                    // Draw the image onto the canvas
+                    context.drawImage(image, 0, 0);
+
+                    // Convert the canvas content to a blob with JPG format
+                    canvas.toBlob(function(blob) {
+                        // Create a new image element with the blob as the source
+                        var newImage = new Image();
+                        newImage.src = URL.createObjectURL(blob);
+
+                        // Set the source of the modal's image to the new image source
+                        qrImage.src = newImage.src;
+
+                        // Set the table name in the modal header
+                        tableNameSpan.textContent = "Table-" + tableName;
+
+                        // Open the modal
+                        qrDownloadModal.showModal();
+                    }, 'image/jpeg', 1.0); // 1.0 means full quality
+                };
+            }
+        </script>
+
+
+
+        <!-- DOWNLOAD QR-CODE IMAGE -->
+        <script>
+            // Download QR Code 
+            function downloadQRCode() {
+                // Get the QR code image element
+                var qrCodeImage = document.getElementById('modalQrImage');
+
+                // Check if the image source is not empty
+                if (qrCodeImage.src !== "") {
+                    // Create a temporary anchor element
+                    var downloadLink = document.createElement('a');
+
+                    // Set the download link's href to the image source
+                    downloadLink.href = qrCodeImage.src;
+
+                    // Set the download attribute with a suggested filename
+                    downloadLink.download = 'Table-'+tableName+'.png';
+
+                    // Append the download link to the document body
+                    document.body.appendChild(downloadLink);
+
+                    // Trigger a click on the download link
+                    downloadLink.click();
+
+                    // Remove the download link from the document body
+                    document.body.removeChild(downloadLink);
+                }
+            }
+        </script>
+
+
+
         <!-- ADD TABLE MODAL -->
         <dialog class="addTableModal rounded" id="addTableModal">
             <div class="addTableModalContentDiv row row-gap-2 d-flex justify-content-center h-100">
-                <h1 class="text-center display-5 fw-medium align-self-center">Do you want to add <span class="fw-bold">Table <?php echo "$tablenumber"; ?> ?</span></h1>
-                <div class="col d-flex gap-4 align-items-center justify-content-center">
+                <h1 class="text-center display-5 fw-medium align-self-center p-0 m-0">Do you want to add <span class="fw-bold">Table <?php echo "$tablenumber"; ?> ?</span></h1>
+                <hr class="p-0 m-0">
+                <div class="col d-flex gap-4 align-items-center justify-content-center p-0 m-0">
                     <input type="submit" class="addTableConfirmBtn col-sm-5 p-2 fs-4 rounded" value="Yes" onclick="generateQRCode()">
                     <input type="submit" class="addTableCancelBtn col-sm-5 p-2 fs-4 rounded" value="No" onclick="addTableModal.close()">
+                </div>
+            </div>
+        </dialog>
+
+
+        <!-- QR-DOWNLOAD MODAL -->
+        <dialog class="qrDownloadModal rounded" id="qrDownloadModal">
+            <div class="qrDownloadModalContent p-4 row row-gap-2 d-flex flex-column align-items-center justify-content-center h-100">
+                <h1 class="display-5 fw-medium text-center ">Download <span id="modalTableName" class="fw-bold"></span> QR Code</h1>
+                <hr class="m-0 p-0">
+                <img src="" alt="" class="modalQrImage border border-dark rounded m-2" id="modalQrImage">
+                <div class="d-flex gap-4 align-items-center justify-content-center p-0 m-0">
+                    <input type="submit" value="Download QR Code" class="downloadQrBtn col-sm-5 p-2 fs-4 rounded m-0" onclick="downloadQRCode()">
+                    <input type="submit" value="Cancel" class="downloadQrCancelBtn col-sm-5 p-2 fs-4 rounded m-0" onclick="qrDownloadModal.close()">
                 </div>
             </div>
         </dialog>
