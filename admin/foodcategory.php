@@ -140,10 +140,11 @@ if (!isset($_SESSION['authAdmin'])) {
                                         </div>
                                     <?php } ?>
                                     <div class="FcControlDiv d-flex gap-2 justify-content-between mt-2">
-                                        <button class="FcEditBtn w-50 py-1 rounded" onclick="editFcModal.showModal()">
-                                            <span class="fw-medium">Edit</span>
+                                        <?php echo "    
+                                        <button class='FcEditBtn w-50 py-1 rounded' onClick='openEditFcModal(\"" . $row['category_image'] . "\", \"" . $row['category_name'] . "\", \"" . $row['id'] . "\")'>
+                                            <span class='fw-medium'>Edit</span>
                                         </button>
-                                        <?php echo "
+                                        
                                         <button class='FcDeleteBtn bg-secondary-subtle w-50 py-1 rounded' onClick='openDeleteFcModal(\"" . $row['category_image'] . "\", \"" . $row['category_name'] . "\", \"" . $row['id'] . "\")'>
                                             <span class='fw-bold'>Delete</span>
                                         </button> "; ?>
@@ -203,9 +204,11 @@ if (!isset($_SESSION['authAdmin'])) {
         <div class="editFcModalContentDiv d-flex flex-column align-items-center justify-content-between h-100">
             <h1 class="w-100 text-center display-6 fw-bold align-self-center p-0 m-0">Edit Food Category</h1>
             <hr class="w-100 p-0 my-1">
-            <img src="../qr-images/Table-12.png" alt="food-category" class="editFcModalImg rounded" id="editFcModalImg">
+            <img src="" alt="food-category" class="editFcModalImg rounded" id="editFcModalImg">
             <form action="" method="post" enctype="multipart/form-data" class="d-flex flex-column align-items-center w-75">
                 <input type="text" name="food_category_name" id="editFcName" class="editFcName my-2 col-sm-12 rounded py-2 px-4 fw-medium" placeholder="Enter Food category">
+                <input type="text" name="food_category_name_compare" id="editFcNameCompare" class="editFcNameCompare" readonly hidden>
+                <input type="text" name="food_category_id" id="editFcId" class="editFcId" readonly hidden>
                 <input type="file" name="food_category_image" id="editFcImg" class="editFcImg my-3 col-sm-12 rounded fw-medium">
                 <div class="col col-sm-12 d-flex gap-3 mt-2 align-items-center justify-content-between p-0">
                     <input type="submit" value="Edit Food Category" class="editFcBtn w-50 py-2 fs-4 rounded" id="editFcBtn">
@@ -403,6 +406,59 @@ if (!isset($_SESSION['authAdmin'])) {
         function deleteFc() {
             window.location.href = deleteFcUrl;
             // console.log(deleteFcUrl);
+        }
+    </script>
+
+
+
+    <!-- EDIT FOOD CATEGORY MODAL -->
+    <script>
+        // var editFcUrl;
+
+        function openEditFcModal(editFcImgData, editFcName, editFcID) {
+            var editFcModal = document.getElementById('editFcModal');
+            var editFcModalImg = editFcModal.querySelector('.editFcModalImg');
+            document.getElementById('editFcName').value = editFcName;
+            document.getElementById('editFcId').value = editFcID;
+            document.getElementById('editFcNameCompare').value = editFcName;
+
+            // Create a temporary canvas
+            var canvas = document.createElement('canvas');
+            var context = canvas.getContext('2d');
+
+            // Create a new image element
+            var image = new Image();
+
+            // Set the source of the new image to the QR image data
+            image.src = 'data:image;base64,' + editFcImgData;
+
+            // Wait for the image to load
+            image.onload = function() {
+                // Set the canvas size to match the image
+                canvas.width = image.width;
+                canvas.height = image.height;
+
+                // Draw the image onto the canvas
+                context.drawImage(image, 0, 0);
+
+                // Convert the canvas content to a blob with JPG format
+                canvas.toBlob(function(blob) {
+                    // Create a new image element with the blob as the source
+                    var newImage = new Image();
+                    newImage.src = URL.createObjectURL(blob);
+
+                    // Set the source of the modal's image to the new image source
+                    editFcModalImg.src = newImage.src;
+
+                    // Set the table name in the modal header
+                    // editFcName.value = editFcName;
+
+                    // editFcUrl = "./foodcategory.php?editFcId=" + editFcID;
+
+                    // Open the modal
+                    editFcModal.showModal();
+                }, 'image/jpeg', 1.0); // 1.0 means full quality
+            };
         }
     </script>
 
