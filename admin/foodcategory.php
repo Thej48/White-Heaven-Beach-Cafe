@@ -492,6 +492,108 @@ if (!isset($_SESSION['authAdmin'])) {
 
 
 
+    <!-- EDIT FOOD CATEGORY -->
+    <?php
+    if (isset($_POST['food_category_id']) && isset($_POST['food_category_name_compare'])) {
+        $editFcId = $_POST['food_category_id'];
+        $editFcNameOriginal = $_POST['food_category_name_compare'];
+
+        // UPDATE FC_IMAGE ONLY
+        if (isset($_POST['food_category_name']) && isset($_FILES['food_category_image'])) {
+            $editFcName = $_POST['food_category_name'];
+
+            // Check if the file was uploaded successfully
+            if ($_FILES['food_category_image']['error'] == UPLOAD_ERR_OK) {
+                $editFcImageGet = $_FILES['food_category_image']['tmp_name'];
+                $editFcImageData = file_get_contents($editFcImageGet);
+                $editFcImage = base64_encode($editFcImageData);
+
+                if ($editFcNameOriginal === $editFcName) {
+                    $editFcImgQuery = "UPDATE food_category SET category_image='$editFcImage' WHERE id='$editFcId'";
+                    $editFcImgRun = mysqli_query($conn, $editFcImgQuery);
+
+                    if ($editFcImgRun) {
+    ?>
+                        <script>
+                            window.location.href = "./foodcategory.php";
+                        </script>
+                    <?php
+                        $_SESSION["FcImgUpdatedSuccessfully"] = "Food Category Image Updated Successfully..!";
+                    } else {
+                    ?>
+                        <script>
+                            window.location.href = "./foodcategory.php";
+                        </script>
+                    <?php
+                        $_SESSION["FcImgUpdationFailure"] = "Failed to Update Food Category Image..!";
+                    }
+                }
+            }
+        }
+
+        // UPDATE FC_NAME AND FC_IMAGE
+        if (isset($_POST['food_category_name']) && isset($_FILES['food_category_image'])) {
+            $editFcName = $_POST['food_category_name'];
+
+            // Check if the file was uploaded successfully
+            if ($_FILES['food_category_image']['error'] == UPLOAD_ERR_OK) {
+                $editFcImageGet = $_FILES['food_category_image']['tmp_name'];
+                $editFcImageData = file_get_contents($editFcImageGet);
+                $editFcImage = base64_encode($editFcImageData);
+
+                if ($editFcNameOriginal !== $editFcName) {
+                    $editFcBothQuery = "UPDATE food_category SET category_name='$editFcName', category_image='$editFcImage' WHERE id='$editFcId'";
+                    $editFcBothRun = mysqli_query($conn, $editFcBothQuery);
+
+                    if ($editFcBothRun) {
+                    ?>
+                        <script>
+                            window.location.href = "./foodcategory.php";
+                        </script>
+                    <?php
+                        $_SESSION["FcUpdatedSuccessfully"] = "Food Category Updated Successfully..!";
+                    } else {
+                    ?>
+                        <script>
+                            window.location.href = "./foodcategory.php";
+                        </script>
+                    <?php
+                        $_SESSION["FcUpdationFailure"] = "Failed to Update Food Category..!";
+                    }
+                }
+            }
+        }
+
+        // UPDATE FC_NAME ONLY
+        if (isset($_POST['food_category_name'])) {
+            $editFcName = $_POST['food_category_name'];
+
+            if ($editFcNameOriginal !== $editFcName) {
+                $editFcNameQuery = "UPDATE food_category SET category_name='$editFcName' WHERE id='$editFcId'";
+                $editFcNameRun = mysqli_query($conn, $editFcNameQuery);
+
+                if ($editFcNameRun) {
+                    ?>
+                    <script>
+                        window.location.href = "./foodcategory.php";
+                    </script>
+                <?php
+                    $_SESSION["FcNameUpdatedSuccessfully"] = "Food Category Name Updated Successfully..!";
+                } else {
+                ?>
+                    <script>
+                        window.location.href = "./foodcategory.php";
+                    </script>
+    <?php
+                    $_SESSION["FcNameUpdationFailure"] = "Failed to Update Food Category Name..!";
+                }
+            }
+        }
+    }
+    ?>
+
+
+
 </body>
 
 </html>
