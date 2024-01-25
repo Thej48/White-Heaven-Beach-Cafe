@@ -71,9 +71,9 @@ session_start();
                         ?>
                     </div>
                     <form method="POST" action="./checkAdminLogin.php" class="d-flex">
-                        <input type="email" name="email" id="email" placeholder="Enter Email Address" required>
-                        <input type="password" name="password" id="password" placeholder="Enter Password" required>
-                        <input type="submit" value="Sign In" class="signInBtn">
+                        <input type="email" name="email" id="email" placeholder="Enter Email Address" class="rounded" required>
+                        <input type="password" name="password" id="password" placeholder="Enter Password" class="rounded" required>
+                        <input type="submit" value="Sign In" class="signInBtn rounded">
                     </form>
                     <span class="forgotPassword"><a href="">Forgot Password ?</a></span>
                     <hr width="85%">

@@ -157,7 +157,6 @@ body {
     object-fit: contain;
     mix-blend-mode: multiply;
     cursor: pointer;
-    /* border: 1px solid red; */
 }
 
 .addTableModal{
@@ -262,6 +261,261 @@ body {
 /* 𝗙𝗢𝗢𝗗 𝗖𝗔𝗧𝗘𝗚𝗢𝗥𝗬 𝗣𝗔𝗚𝗘 */
 /* ☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢ */
 /* ☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢ */
+
+.FcHeaderControlDiv{
+    background-color: #F8F8F8;
+}
+
+.FcSearchBox{
+    padding: 1.5% 2% 1.5% 7%;
+    background-color: #E8E8E8 !important;
+    color: #262626;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    outline: none;
+    border: 2px inset gray;
+    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat 20px center;
+}
+
+.FcSearchBox:focus{
+    border: 2px outset gray;
+}
+
+.addFcBtn{
+    background-color: #262626;
+    color: white;
+    padding: 7px 0;
+    font-size: large;
+    font-weight: 400;
+    letter-spacing: 1px;
+    border: 2px inset white;
+}
+
+.addFcBtn:active{
+    border: 2px outset white;
+    color: rgb(203, 203, 203);
+}
+
+.FcCard{
+    border: none;
+}
+
+.FcImg{
+    width: 200px !important;
+    height: 200px !important;
+    aspect-ratio: 1;
+    object-fit: contain;
+}
+
+.FcStatusChangeBtn{
+    cursor: pointer;
+    height: 24px !important;
+    width: 40px !important;
+}
+
+.FcCardsDivMsg{
+    display: none;
+}
+
+.FcEditBtn{
+    background-color: #262626;
+    color: white;
+    border: 2px inset white;
+}
+
+.FcControlDiv button span{
+    letter-spacing: 0.5px;
+    font-size: large;
+}
+
+.FcEditBtn:active{
+    border: 2px outset white;
+    color: rgb(255, 255, 255);
+}
+
+.FcDeleteBtn{
+    border: 2px inset grey;
+}
+
+.FcDeleteBtn:active{
+    border: 2px outset grey;
+}
+
+.addFcModal{
+    width: 50%;
+    height: 60%;
+    position: relative;
+    right: auto;
+    top: 20%;
+    left: 25%;
+    bottom: auto;
+    padding: 3%;
+}
+
+.addFcModal::backdrop {
+    backdrop-filter: blur(5px);
+}
+
+.addFcConfirmBtn{
+    background-color: #262626;
+    color: white;
+    padding: 7px 0;
+    font-size: large;
+    font-weight: 400;
+    letter-spacing: 1px;
+    border: 2px inset white;
+}
+
+.addFcConfirmBtn:active{
+    border: 2px outset white;
+    color: rgb(203, 203, 203);
+}
+
+.addFcCancelBtn{
+    background-color: transparent;
+    color: black;
+    padding: 7px 0;
+    font-size: large;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border: 2px inset grey;
+}
+
+.addFcCancelBtn:active{
+    border: 2px outset grey;
+    color: #262626;
+}
+
+.addFcModalContentDiv form input[type=text] {
+    border: 2px outset lightgray;
+    font-size: large;
+    outline: none;
+    letter-spacing: 0.5px;
+}
+
+.addFcModalContentDiv form input[type=file] {
+    border: 2px outset lightgray;
+    font-size: large;
+    letter-spacing: 0.5px;
+}
+
+.addFcModalContentDiv form input[type=text]:focus,
+input[type=file]:focus {
+    border: 2px inset lightgray;
+}
+
+::-webkit-file-upload-button {
+    background: #505050;
+    color: white;
+    width: 45%;
+    border-radius: 3px;
+    margin: 2.5px 10px 2.5px 2.5px;
+    letter-spacing: 0.5px;
+    padding: 8px;
+}
+
+.deleteFcModal{
+    width: 50%;
+    height: 60%;
+    position: relative;
+    right: auto;
+    top: 20%;
+    left: 25%;
+    bottom: auto;
+    padding: 3%;
+}
+
+.deleteFcModal::backdrop {
+    backdrop-filter: blur(5px);
+}
+
+.deleteFcImg{
+    width: 200px !important;
+    height: 200px !important;
+    aspect-ratio: 1;
+    object-fit: contain;
+}
+
+.editFcModal{
+    width: 50%;
+    height: 70%;
+    position: relative;
+    right: auto;
+    top: 15%;
+    left: 25%;
+    bottom: auto;
+    padding: 3%;
+}
+
+.editFcModal::backdrop {
+    backdrop-filter: blur(5px);
+}
+
+.editFcBtn{
+    background-color: #262626;
+    color: white;
+    padding: 7px 0;
+    font-size: large;
+    font-weight: 400;
+    letter-spacing: 1px;
+    border: 2px inset white;
+}
+
+.editFcBtn:active{
+    border: 2px outset white;
+    color: rgb(203, 203, 203);
+}
+
+.editFcCancelBtn{
+    background-color: transparent;
+    color: black;
+    padding: 7px 0;
+    font-size: large;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border: 2px inset grey;
+}
+
+.editFcCancelBtn:active{
+    border: 2px outset grey;
+    color: #262626;
+}
+
+.editFcModalContentDiv form input[type=text] {
+    border: 2px outset lightgray;
+    font-size: large;
+    outline: none;
+    letter-spacing: 0.5px;
+}
+
+.editFcModalContentDiv form input[type=file] {
+    border: 2px outset lightgray;
+    font-size: large;
+    letter-spacing: 0.5px;
+}
+
+.editFcModalContentDiv form input[type=text]:focus,
+input[type=file]:focus {
+    border: 2px inset lightgray;
+}
+
+::-webkit-file-upload-button {
+    background: #505050;
+    color: white;
+    width: 45%;
+    border-radius: 3px;
+    margin: 2.5px 10px 2.5px 2.5px;
+    letter-spacing: 0.5px;
+    padding: 8px;
+}
+
+.editFcModalImg{
+    width: 180px !important;
+    height: 180px !important;
+    aspect-ratio: 1;
+    object-fit: contain;
+}
 
 /* ☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢ */
 /* ☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢ */

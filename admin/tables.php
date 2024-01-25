@@ -365,7 +365,7 @@ if (!isset($_SESSION['authAdmin'])) {
                 <hr class="p-0 m-0">
                 <div class="col d-flex gap-4 align-items-center justify-content-center p-0 m-0">
                     <input type="submit" class="addTableConfirmBtn col-sm-5 p-2 fs-4 rounded" value="Yes" onclick="generateQRCode()">
-                    <input type="submit" class="addTableCancelBtn col-sm-5 p-2 fs-4 rounded" value="No" onclick="addTableModal.close()">
+                    <input type="submit" class="addTableCancelBtn col-sm-5 p-2 fs-4 rounded bg-secondary-subtle" value="No" onclick="addTableModal.close()">
                 </div>
             </div>
         </dialog>
@@ -379,7 +379,7 @@ if (!isset($_SESSION['authAdmin'])) {
                 <img src="" alt="" class="modalQrImage border border-dark rounded m-2" id="modalQrImage">
                 <div class="d-flex gap-4 align-items-center justify-content-center p-0 m-0">
                     <input type="submit" value="Download QR Code" class="downloadQrBtn col-sm-5 p-2 fs-4 rounded m-0" onclick="downloadQRCode()">
-                    <input type="submit" value="Cancel" class="downloadQrCancelBtn col-sm-5 p-2 fs-4 rounded m-0" onclick="qrDownloadModal.close()">
+                    <input type="submit" value="Cancel" class="downloadQrCancelBtn col-sm-5 p-2 fs-4 rounded m-0 bg-secondary-subtle" onclick="qrDownloadModal.close()">
                 </div>
             </div>
         </dialog>
