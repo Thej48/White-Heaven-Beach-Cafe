@@ -181,11 +181,33 @@ if (!isset($_SESSION['authAdmin'])) {
 
 
         <!-- ADD FOOD-ITEM MODAL -->
-        <dialog class="addFoodModal" id="addFoodModal">
-            <div class="addFoodModalContentDiv">
-                
+        <dialog class="addFoodModal rounded p-3" id="addFoodModal">
+            <div class="addFoodModalContentDiv h-100 d-flex flex-column p-0 m-0 align-self-center align-items-center justify-content-center">
+                <h1 class="m-0 p-0 display-6 fw-bold">Add Food Item</h1>
+                <hr class="w-100 my-2">
+                <form action="" method="post" class="d-flex flex-column align-items-center w-75">
+                    <input type="text" name="food_name" placeholder="Enter Food Item Name" id="food_name" class="food_name col-sm-11 my-2 py-2 px-4 rounded" required>
+                    <?php $getFcList = "SELECT * FROM food_category ORDER BY category_name";
+                    $getFcListRes = mysqli_query($conn, $getFcList); ?>
+                    <select name="category_name" id="categoryName" class="FcSelect col-sm-11 my-2 py-2 px-4 rounded" required>
+                        <?php if ($getFcListRes->num_rows > 0) { ?>
+                            <option value="" class="optionTxt w-100 col-sm-11" disabled selected hidden>Select Food Category</option>
+                            <?php while ($row = $getFcListRes->fetch_assoc()) { ?>
+                                <option class="optionTxt w-100"><?php echo $row['category_name']; ?></option>
+                            <?php } ?>
+                        <?php } ?>
+                    </select>
+                    <input type="text" name="food_quantity" placeholder="Enter Food Quantity" id="food_quantity" class="col-sm-11 my-2 py-2 px-4 rounded food_quantity">
+                    <input type="text" name="food_price" placeholder="Enter Price" id="food_price" class="col-sm-11 my-2 py-2 px-4 rounded food_price" required>
+                    <input type="file" name="food_image" id="food_image" class="col-sm-11 my-2 rounded food_image" required>
+                    <div class="addFoodControlDiv col-sm-11 d-flex align-items-center justify-content-center gap-3 mt-2">
+                        <input type="submit" value="Add Food Item" class="addFoodConfirmBtn w-50 py-2 fs-4 rounded">
+                        <input type="submit" value="Cancel" class="addFoodCancelBtn w-50 py-2 fs-4 rounded bg-secondary-subtle" onclick="addFoodModal.close()">
+                    </div>
+                </form>
             </div>
         </dialog>
+
 
 
         <!-- SEARCH BAR SCRIPT -->

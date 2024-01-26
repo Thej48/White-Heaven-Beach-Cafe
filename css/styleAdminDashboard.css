@@ -609,29 +609,9 @@ input[type=file]:focus {
     border: 2px outset grey;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.addFcModal {
+.addFoodModal {
     width: 50%;
-    height: 60%;
+    height: 70%;
     position: relative;
     right: auto;
     top: 20%;
@@ -640,11 +620,11 @@ input[type=file]:focus {
     padding: 3%;
 }
 
-.addFcModal::backdrop {
+.addFoodModal::backdrop {
     backdrop-filter: blur(5px);
 }
 
-.addFcConfirmBtn {
+.addFoodConfirmBtn {
     background-color: #262626;
     color: white;
     padding: 7px 0;
@@ -654,12 +634,12 @@ input[type=file]:focus {
     border: 2px inset white;
 }
 
-.addFcConfirmBtn:active {
+.addFoodConfirmBtn:active {
     border: 2px outset white;
     color: rgb(203, 203, 203);
 }
 
-.addFcCancelBtn {
+.addFoodCancelBtn {
     background-color: transparent;
     color: black;
     padding: 7px 0;
@@ -669,26 +649,33 @@ input[type=file]:focus {
     border: 2px inset grey;
 }
 
-.addFcCancelBtn:active {
+.addFoodCancelBtn:active {
     border: 2px outset grey;
     color: #262626;
 }
 
-.addFcModalContentDiv form input[type=text] {
+.addFoodModalContentDiv form input[type=text] {
     border: 2px outset lightgray;
     font-size: large;
     outline: none;
     letter-spacing: 0.5px;
 }
 
-.addFcModalContentDiv form input[type=file] {
+.addFoodModalContentDiv form input[type=file] {
     border: 2px outset lightgray;
     font-size: large;
     letter-spacing: 0.5px;
 }
 
-.addFcModalContentDiv form input[type=text]:focus,
-input[type=file]:focus {
+.addFoodModalContentDiv form select {
+    border: 2px outset lightgray;
+    font-size: large;
+    letter-spacing: 0.5px;
+}
+
+.addFoodModalContentDiv form input[type=text]:focus,
+input[type=file],
+select:focus {
     border: 2px inset lightgray;
 }
 
@@ -701,6 +688,27 @@ input[type=file]:focus {
     letter-spacing: 0.5px;
     padding: 8px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .deleteFcModal {
     width: 50%;
