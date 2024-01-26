@@ -131,12 +131,12 @@ if (!isset($_SESSION['authAdmin'])) {
                                     ?>
                                         <div class='FcStatusDiv d-flex align-items-center justify-content-between mb-1'>
                                             <span class="fw-bold">Status : <span class="fw-medium">Available</span></span>
-                                            <img class="FcStatusChangeBtn" src='../icons/toggle-off.svg' alt='Fc-available' onclick="document.location.href='./foodcategory.php?disableId=<?php echo $row['id']; ?>'">
+                                            <img class="FcStatusChangeBtn" src='../icons/toggle-off.svg' alt='Fc-available' onclick="document.location.href='./foodcategory.php?disableId=<?php echo $row['id']; ?>&disableFood=<?php echo $row['category_name']; ?>'">
                                         </div>
                                     <?php } elseif ($row['category_status'] == 1) { ?>
                                         <div class='FcStatusDiv d-flex align-items-center justify-content-between mb-1'>
                                             <span class="fw-bold">Status : <span class="fw-medium">Disabled</span></span>
-                                            <img class="FcStatusChangeBtn" src='../icons/toggle-on.svg' alt='Fc-unavailable' onclick="document.location.href='./foodcategory.php?availId=<?php echo $row['id']; ?>'">
+                                            <img class="FcStatusChangeBtn" src='../icons/toggle-on.svg' alt='Fc-unavailable' onclick="document.location.href='./foodcategory.php?availId=<?php echo $row['id']; ?>&availFood=<?php echo $row['category_name']; ?>'">
                                         </div>
                                     <?php } ?>
                                     <div class="FcControlDiv d-flex gap-2 justify-content-between mt-2">
@@ -321,11 +321,17 @@ if (!isset($_SESSION['authAdmin'])) {
     <script>
         // Change table_status to 1
         <?php
-        if (isset($_GET['disableId'])) {
+        if (isset($_GET['disableId']) && isset($_GET['disableFood'])) {
             $FcDisableId = $_GET['disableId'];
-            $FcDisableQuery = "UPDATE food_category SET category_status = '1' WHERE id=$FcDisableId ";
+            $DisableFood = $_GET['disableFood'];
+
+            $FcDisableQuery = "UPDATE food_category SET category_status = '1' WHERE id='$FcDisableId' ";
             $FcDisableRun = mysqli_query($conn, $FcDisableQuery);
-            if ($FcDisableRun) { ?>
+
+            $DisableFoodQuery = "UPDATE food_item SET food_status = '1' WHERE category_name='$DisableFood' ";
+            $DisableFoodRun = mysqli_query($conn, $DisableFoodQuery);
+
+            if ($FcDisableRun && $DisableFoodRun) { ?>
                 window.location.href = './foodcategory.php#<?php echo $FcDisableId ?>';
             <?php
             } else {
@@ -334,13 +340,19 @@ if (!isset($_SESSION['authAdmin'])) {
             <?php
             }
             // Change table_status to 0
-        } elseif (isset($_GET['availId'])) {
+        } elseif (isset($_GET['availId']) && isset($_GET['availFood'])) {
             ?>
             <?php
             $FcAvailId = $_GET['availId'];
-            $FcAvailQuery = "UPDATE food_category SET category_status = '0' WHERE id=$FcAvailId ";
+            $AvailFood = $_GET['availFood'];
+
+            $FcAvailQuery = "UPDATE food_category SET category_status = '0' WHERE id='$FcAvailId' ";
             $FcAvailRun = mysqli_query($conn, $FcAvailQuery);
-            if ($FcAvailRun) { ?>
+
+            $AvailFoodQuery = "UPDATE food_item SET food_status = '0' WHERE category_name='$AvailFood' ";
+            $AvailFoodRun = mysqli_query($conn, $AvailFoodQuery);
+
+            if ($FcAvailRun && $AvailFoodRun) { ?>
                 window.location.href = './foodcategory.php#<?php echo $FcAvailId ?>';
             <?php
             } else {

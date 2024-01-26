@@ -91,19 +91,173 @@ if (!isset($_SESSION['authAdmin'])) {
                         </div>
                     </div>
                     <button onclick="document.location.href='./logoutAdmin.php'" class="logoutBtn rounded d-flex align-items-center justify-content-center gap-1">
-                    <img src="../icons/logout_white.png" alt="Logout" class="logoutIcon">
-                    Logout
+                        <img src="../icons/logout_white.png" alt="Logout" class="logoutIcon">
+                        Logout
                     </button>
                 </div>
             </div>
 
-            <div class="col-sm-10 d-flex dashboardBodyDiv">
-                <h1 class="display-1 fw-bold">Food Item</h1>
+            <div class="col-sm-10 d-flex flex-column dashboardBodyDiv align-self-center">
+
+                <div class="py-2 m-0 d-flex align-items-center FoodHeaderControlDiv border-bottom border-dark-subtle">
+                    <h1 class="p-0 m-0 h2 w-50 fw-medium">Food Items</h1>
+                    <div class="FoodSearchAdd w-50 d-flex gap-3 justify-content-end">
+                        <input type="search" name="FoodSearchBox" id="FoodSearchBox" placeholder="Search here..." class="col-sm-8 rounded FoodSearchBox">
+                        <input type="submit" value="Add Food Item" class="col-sm-4 rounded addFoodBtn" onclick="addFoodModal.showModal()">
+                    </div>
+                </div>
+
+                <?php
+                $getFoodQuery = "SELECT * FROM food_item ORDER BY category_name, food_name;";
+                $getFoodRes = $conn->query($getFoodQuery);
+                $table_number = array();
+
+                if ($getFoodRes->num_rows > 0) { ?>
+
+                    <div class="FoodCardsDiv overflow-auto py-3 px-2 container align-self-center  gap-3">
+                        <?php
+                        while ($row = $getFoodRes->fetch_assoc()) {
+                            $foodItemImage = base64_decode($row['food_image']); ?>
+                            <?php if ($row['food_status'] == 0) { ?>
+                                <div class='card bg-white border border-secondary-subtle shadow-sm rounded-1 col col-sm-auto w-100 p-2 FoodCard' id="<?php echo $row['id']; ?>">
+                                <?php } elseif ($row['food_status'] == 1) { ?>
+                                    <div class='card bg-info bg-opacity-10 border border-secondary-subtle shadow-sm rounded-1 col col-sm-auto w-100 p-2 FoodCard' id="<?php echo $row['id']; ?>">
+                                    <?php } ?>
+                                    <h1 class="h5 fw-bold"><?php echo $row['food_name'] ?></h1>
+                                    <div class="FoodInfoDiv d-flex gap-2">
+                                        <img src="data:image;base64,<?php echo base64_encode($foodItemImage) ?>" alt="food-img" class="FoodImg rounded" id="FoodImg">
+                                        <div class="FoodInfo d-flex flex-column justify-content-between w-100">
+                                            <div class="FoodDetails d-flex flex-column">
+                                                <span class="FoodPrice fs-5 fw-bold">₹ <?php echo number_format($row['price'], 2) ?></span>
+                                                <?php if ($row['quantity'] != '') { ?>
+                                                    <span class="FoodQuantity fw-bold fs-6">Quantity : <span class="FoodQuantityValue fw-medium"><?php echo $row['quantity'] ?></span></span>
+                                                    <span class="FoodCategory fw-bold fs-6">Category : <span class="FoodCategoryValue fw-medium"><?php echo $row['category_name'] ?></span></span>
+                                                <?php } else { ?>
+                                                    <span class="FoodCategory fw-bold fs-6">Category : <span class="FoodCategoryValue fw-medium"><?php echo $row['category_name'] ?></span></span>
+                                                    <span class="FoodQuantity fw-bold fs-6">&nbsp;</span>
+                                                <?php } ?>
+                                            </div>
+                                            <div class="FoodControls d-flex flex-column gap-1">
+                                                <hr class="w-100 my-1">
+                                                <?php if ($row['food_status'] == 0) { ?>
+                                                    <span class="FoodStatus fs-6 fw-bold d-flex align-items-center justify-content-between">Available<img src="../icons/toggle-off.svg" alt="food-available" class="FoodStatusToggleIcon w-auto h-100" onclick="document.location.href='./fooditem.php?disableId=<?php echo $row['id']; ?>'"></span>
+                                                <?php } elseif ($row['food_status'] == 1) { ?>
+                                                    <span class="FoodStatus fs-6 fw-bold d-flex align-items-center justify-content-between">Disabled<img src="../icons/toggle-on.svg" alt="food-disabled" class="FoodStatusToggleIcon w-auto h-100" onclick="document.location.href='./fooditem.php?availId=<?php echo $row['id']; ?>'"></span>
+                                                <?php } ?>
+                                                <hr class="w-100 my-1">
+                                                <div class="FoodControlBtnDiv d-flex gap-2">
+                                                    <input type="submit" value="Edit" class="FoodEditBtn w-50 rounded py-1 fw-medium" id="FoodEditBtn">
+                                                    <input type="submit" value="Delete" class="FoodDeleteBtn bg-secondary-subtle w-50 rounded py-1 fw-bold" id="FoodDeleteBtn">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                <?php } ?>
+                                </div>
+                            <?php } else { ?>
+                                <script>
+                                    var disableSearchInput = document.getElementById('FoodSearchBox');
+                                    disableSearchInput.disabled = true;
+                                </script>
+                            <?php
+                            echo "
+                        <div class='FoodCardsDivSearchErrorMsg overflow-auto py-2 px-3 d-flex flex-column h-100 w-100 align-items-center justify-content-center'>
+                            <h1 class='h2 fw-bolder text-decoration-underline'>Nothing to Show</h1>
+                            <p class='h6 w-50 lh-base text-center'>We're sorry, but it looks like there are no details available for the food items at the moment. It's possible that there is no data to display. Please check back later.</p>
+                        </div> ";
+                        } ?>
+                            <div class='FoodCardsDivMsg overflow-auto py-2 px-3 flex-column h-100 align-items-center justify-content-center'>
+                                <h1 class='h2 fw-bolder text-decoration-underline'>Nothing to Show</h1>
+                                <p class='h6 w-50 lh-base text-center'>We're sorry, but it looks like there are no details available for the food items at the moment. It's possible that there is no data to display. Please check back later.</p>
+                            </div>
+                    </div>
+
+
             </div>
 
         </div>
 
-    </div>
+
+
+        <!-- ADD FOOD-ITEM MODAL -->
+        <dialog class="addFoodModal" id="addFoodModal">
+            <div class="addFoodModalContentDiv">
+                
+            </div>
+        </dialog>
+
+
+        <!-- SEARCH BAR SCRIPT -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const FoodSearchBox = document.getElementById('FoodSearchBox');
+                const FoodCardsDiv = document.querySelector('.FoodCardsDiv');
+                const FoodCardsDivMsg = document.querySelector('.FoodCardsDivMsg');
+
+                FoodSearchBox.addEventListener('input', function() {
+                    const searchValue = FoodSearchBox.value.trim().toLowerCase();
+                    const cards = document.querySelectorAll('.FoodCard');
+
+                    let matchFound = false;
+
+                    cards.forEach(function(card) {
+                        const cardText = card.innerText.toLowerCase();
+
+                        if (cardText.includes(searchValue)) {
+                            card.style.display = 'block';
+                            matchFound = true;
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    if (matchFound) {
+                        FoodCardsDivMsg.style.display = 'none';
+                    } else {
+                        FoodCardsDivMsg.style.display = 'flex';
+                    }
+
+                });
+            });
+        </script>
+
+
+
+        <!-- UPDATE FOOD-CATEGORY STATUS-->
+        <script>
+            // Change table_status to 1
+            <?php
+            if (isset($_GET['disableId'])) {
+                $FoodDisableId = $_GET['disableId'];
+                $FoodDisableQuery = "UPDATE food_item SET food_status = '1' WHERE id=$FoodDisableId ";
+                $FoodDisableRun = mysqli_query($conn, $FoodDisableQuery);
+                if ($FoodDisableRun) { ?>
+                    window.location.href = './fooditem.php#<?php echo $FoodDisableId ?>';
+                <?php
+                } else {
+                ?>
+                    window.location.href = './fooditem.php';
+                <?php
+                }
+                // Change table_status to 0
+            } elseif (isset($_GET['availId'])) {
+                ?>
+                <?php
+                $FoodAvailId = $_GET['availId'];
+                $FoodAvailQuery = "UPDATE food_item SET food_status = '0' WHERE id=$FoodAvailId ";
+                $FoodAvailRun = mysqli_query($conn, $FoodAvailQuery);
+                if ($FoodAvailRun) { ?>
+                    window.location.href = './fooditem.php#<?php echo $FoodAvailId ?>';
+                <?php
+                } else {
+                ?>
+                    window.location.href = './fooditem.php';
+            <?php
+                }
+            }
+            ?>
+        </script>
 
 </body>
 
