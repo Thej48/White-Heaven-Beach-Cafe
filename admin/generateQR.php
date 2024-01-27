@@ -24,7 +24,7 @@ if ($tableInfoResult->num_rows >= 1) {
     $path = "../qr-images/";
 
     if (isset($tablenumber)) {
-        $url = "http://192.168.221.6//projects/kot/home.php?tableNo=$tablenumber";
+        $url = "http://192.168.221.6//whiteheaven/home.php?tableNo=$tablenumber";
     }
 ?>
     <?php

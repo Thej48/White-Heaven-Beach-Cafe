@@ -1,0 +1,96 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none !important;
+    list-style-type: none;
+    scroll-behavior: smooth;
+    font-family: 'Lato', sans-serif;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    display: flex;
+    height: 100svh;
+    width: 100%;
+    /* overflow: hidden; */
+    background-color: #f8f8f8;
+}
+
+.homeContentBox {
+    background-image: url('../images/heroSectionAndroid.jpg');
+    background-color: #F7F7F7;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    aspect-ratio: 9/16;
+    object-fit: cover;
+    background-position: bottom;
+    padding: 0% 2%;
+    z-index: 10;
+}
+
+.brandName {
+    font-weight: 900;
+}
+
+.brandName1 {
+    color: #0CB1F2;
+}
+
+.brandName2 {
+    color: #90BF6F;
+}
+
+.slogan {
+    color: #656565;
+}
+
+.getStartedBtn {
+    background-color: #FF9F14;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    outline: none;
+    border: none;
+}
+
+.loginFormModalCloseIcon {
+    cursor: pointer;
+}
+
+.loginFormModal{
+    width: 85%;
+    height: 60%;
+    position: relative;
+    top: 20%;
+    bottom: auto;
+    left: 7%;
+    right: auto;
+}
+
+.loginFormModal::backdrop{
+    backdrop-filter: blur(5px);
+}
+
+@media (min-width:1000px) {
+    .homeContentBox {
+        background-image: url('../images/heroSectionDesktop.jpg');
+        background-repeat: no-repeat;
+        background-size: auto 100%;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        background-position: center right;
+    }
+
+    .loginFormModal{
+        width: 50%;
+        height: 60%;
+        position: relative;
+        top: 20%;
+        bottom: auto;
+        left: 25%;
+        right: auto;
+    }
+}

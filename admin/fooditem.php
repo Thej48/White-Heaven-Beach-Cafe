@@ -230,10 +230,10 @@ if (!isset($_SESSION['authAdmin'])) {
                 <h1 class="w-100 text-center display-6 fw-bold align-self-center p-0 m-0">Edit Food Item</h1>
                 <hr class="w-100 p-0 my-1">
                 <img src="" alt="food-category" class="editFoodModalImg rounded my-1" id="editFoodModalImg">
-                <form action="" method="post" enctype="multipart/form-data" class="d-flex flex-column align-items-center w-75">
-                    <input type="text" name="food_category_name" id="editFoodName" class="editFoodName my-2 col-sm-12 rounded py-2 px-4 fw-medium" placeholder="Enter Food category">
-                    <input type="text" name="food_category_name_compare" id="editFoodNameCompare" class="editFoodNameCompare" readonly hidden>
-                    <input type="text" name="food_category_id" id="editFoodId" class="editFoodId" readonly hidden>
+                <form action="./fooditem.php" method="post" enctype="multipart/form-data" class="d-flex flex-column align-items-center w-75">
+                    <input type="text" name="food_name" id="editFoodName" class="editFoodName my-2 col-sm-12 rounded py-2 px-4 fw-medium" placeholder="Enter Food category">
+                    <input type="text" name="food_name_compare" id="editFoodNameCompare" class="editFoodNameCompare" readonly hidden>
+                    <input type="text" name="food_id" id="editFoodId" class="editFoodId" readonly hidden>
                     <?php $getFcList = "SELECT * FROM food_category ORDER BY category_name";
                     $getFcListRes = mysqli_query($conn, $getFcList); ?>
                     <select name="category_name" id="editFoodCategoryName" class="FcSelect col-sm-12 my-2 py-2 px-4 rounded" required>
@@ -244,9 +244,9 @@ if (!isset($_SESSION['authAdmin'])) {
                             <?php } ?>
                         <?php } ?>
                     </select>
-                    <input type="file" name="food_category_image" id="editFoodImg" class="editFoodImg my-2 col-sm-12 rounded fw-medium">
-                    <input type="text" name="food_category_quantity" id="editFoodQuantity" class="editFoodQuantity my-2 col-sm-12 rounded py-2 px-4 fw-medium" placeholder="Enter Food Quantity">
-                    <input type="text" name="food_category_price" id="editFoodPrice" class="editFoodPrice my-2 col-sm-12 rounded py-2 px-4 fw-medium" placeholder="Enter Price" required>
+                    <input type="file" name="food_image" id="editFoodImg" class="editFoodImg my-2 col-sm-12 rounded fw-medium">
+                    <input type="text" name="food_quantity" id="editFoodQuantity" class="editFoodQuantity my-2 col-sm-12 rounded py-2 px-4 fw-medium" placeholder="Enter Food Quantity">
+                    <input type="text" name="food_price" id="editFoodPrice" class="editFoodPrice my-2 col-sm-12 rounded py-2 px-4 fw-medium" placeholder="Enter Price" required>
                     <div class="col col-sm-12 d-flex gap-3 mt-2 align-items-center justify-content-between p-0">
                         <input type="submit" value="Edit Food Category" class="editFoodBtn w-50 py-2 fs-4 rounded" id="editFoodBtn">
                         <input type="submit" value="Cancel" class="editFoodCancelBtn w-50 py-2 fs-4 rounded bg-secondary-subtle" id="editFoodCancelBtn" onclick="editFoodModal.close()">
@@ -318,6 +318,85 @@ if (!isset($_SESSION['authAdmin'])) {
                     }, 'image/jpeg', 1.0); // 1.0 means full quality
                 };
             }
+        </script>
+
+
+
+        <!-- EDIT FOOD CATEGORY -->
+        <script>
+            <?php
+            if (isset($_POST['food_id']) && isset($_POST['food_name_compare'])) {
+                $editFoodId = $_POST['food_id'];
+                $editFcNameOriginal = $_POST['food_name_compare'];
+
+                // EDIT WITHOUT IMAGE
+                if (
+                    isset($_POST['food_name'])
+                    && isset($_POST['category_name'])
+                    && isset($_POST['food_quantity'])
+                    && isset($_POST['food_price'])
+                    // && !isset($_FILES['edit_food_image'])
+                ) {
+                    $foodName = $_POST['food_name'];
+                    $foodCategory = $_POST['category_name'];
+                    $foodQuantity = $_POST['food_quantity'];
+                    $foodPrice = $_POST['food_price'];
+                    // $foodImageData = $_FILES['edit_food_image'];
+
+
+                    $editFoodQuery = "UPDATE food_item SET food_name='$foodName', category_name='$foodCategory', quantity='$foodQuantity' , price='$foodPrice' WHERE id='$editFoodId' ";
+                    $editFoodRun = mysqli_query($conn, $editFoodQuery);
+
+                    if ($editFoodRun) {
+            ?>
+                        window.location.href = "./fooditem.php";
+                    <?php
+                        $_SESSION["FoodDetailsUpdated"] = "Food Item Updated Successfully..!";
+                    } else {
+                    ?>
+                        window.location.href = "./fooditem.php";
+                        <?php
+                        $_SESSION["FoodDetailsUpdationFailed"] = "Failed to Update Food Item..!";
+                    }
+                }
+
+                // EDIT WITH IMAGE
+                if (
+                    isset($_POST['food_name'])
+                    && isset($_POST['category_name'])
+                    && isset($_POST['food_quantity'])
+                    && isset($_POST['food_price'])
+                    && isset($_FILES['food_image'])
+                ) {
+                    $foodName = $_POST['food_name'];
+                    $foodCategory = $_POST['category_name'];
+                    $foodQuantity = $_POST['food_quantity'];
+                    $foodPrice = $_POST['food_price'];
+                    $foodImageData = $_FILES['food_image'];
+                    if ($_FILES['food_image']['error'] == UPLOAD_ERR_OK) {
+                        $editFoodImageGet = $_FILES['food_image']['tmp_name'];
+                        $editFoodImageData = file_get_contents($editFoodImageGet);
+                        $editFoodImage = base64_encode($editFoodImageData);
+
+                        $editFoodQuery = "UPDATE food_item SET food_name='$foodName', category_name='$foodCategory', quantity='$foodQuantity' , price='$foodPrice', food_image='$editFoodImage' WHERE id='$editFoodId' ";
+                        $editFoodRun = mysqli_query($conn, $editFoodQuery);
+
+                        if ($editFoodRun) {
+                        ?>
+                            window.location.href = "./fooditem.php";
+                        <?php
+                            $_SESSION["FoodDetailsUpdated"] = "Food Item Updated Successfully..!";
+                        } else {
+                        ?>
+                            window.location.href = "./fooditem.php";
+            <?php
+                            $_SESSION["FoodDetailsUpdationFailed"] = "Failed to Update Food Item..!";
+                        }
+                    }
+                }
+            }
+
+            ?>
         </script>
 
 
