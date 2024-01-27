@@ -185,7 +185,7 @@ if (!isset($_SESSION['authAdmin'])) {
             <div class="addFoodModalContentDiv h-100 d-flex flex-column p-0 m-0 align-self-center align-items-center justify-content-center">
                 <h1 class="m-0 p-0 display-6 fw-bold">Add Food Item</h1>
                 <hr class="w-100 my-2">
-                <form action="" method="post" class="d-flex flex-column align-items-center w-75">
+                <form action="./fooditem.php" method="post" enctype="multipart/form-data" class="d-flex flex-column align-items-center w-75">
                     <input type="text" name="food_name" placeholder="Enter Food Item Name" id="food_name" class="food_name col-sm-11 my-2 py-2 px-4 rounded" required>
                     <?php $getFcList = "SELECT * FROM food_category ORDER BY category_name";
                     $getFcListRes = mysqli_query($conn, $getFcList); ?>
@@ -280,6 +280,58 @@ if (!isset($_SESSION['authAdmin'])) {
             }
             ?>
         </script>
+
+
+
+        <!-- ADD FOOD-ITEM -->
+        <?php
+        if (isset($_POST['food_name']) && isset($_FILES['food_image']) && isset($_POST['food_quantity']) && isset($_POST['food_price']) && isset($_POST['category_name'])) {
+            $FoodName = $_POST['food_name'];
+
+            $FoodImageGet = $_FILES['food_image']['tmp_name'];
+            $name = addslashes($_FILES["food_image"]["tmp_name"]);
+            $FoodImageData = file_get_contents($FoodImageGet);
+            $FoodImage = base64_encode($FoodImageData);
+
+            $FoodQuantity = $_POST['food_quantity'];
+            $FoodPrice = $_POST['food_price'];
+            $FoodCategoryName = $_POST['category_name'];
+
+            $checkIfFoodExists = "SELECT * FROM food_item WHERE food_name=? ";
+            $checkForFood = $conn->prepare($checkIfFoodExists);
+            $checkForFood->bind_param('s', $FoodName);
+            $checkForFood->execute();
+            $checkForFoodResult = $checkForFood->get_result();
+
+            if ($checkForFoodResult->num_rows >= 1) {
+        ?>
+                <script>
+                    window.location.href = "./fooditem.php";
+                </script>
+                <?php
+                $_SESSION['FoodAlreadyExists'] = "Food Item Already Exists...!";
+            } else {
+                $addFoodQuery = "INSERT INTO food_item(food_name, category_name, price, quantity, food_image) VALUES ('$FoodName', '$FoodCategoryName','$FoodPrice', '$FoodQuantity','$FoodImage') ";
+                $addFoodRun = mysqli_query($conn, $addFoodQuery);
+
+                if ($addFoodRun) {
+                ?>
+                    <script>
+                        window.location.href = "./fooditem.php";
+                    </script>
+                <?php
+                    $_SESSION["FoodAddedSuccessfully"] = "Food Item Added Successfully..!";
+                } else {
+                ?>
+                    <script>
+                        window.location.href = "./fooditem.php";
+                    </script>
+        <?php
+                    $_SESSION["FoodAdditionFailure"] = "Failed to add Food Item..!";
+                }
+            }
+        }
+        ?>
 
 </body>
 
