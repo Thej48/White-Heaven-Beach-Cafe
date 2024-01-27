@@ -689,28 +689,7 @@ select:focus {
     padding: 8px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.deleteFcModal {
+.deleteFoodModal {
     width: 50%;
     height: 60%;
     position: relative;
@@ -721,77 +700,80 @@ select:focus {
     padding: 3%;
 }
 
-.deleteFcModal::backdrop {
+.deleteFoodModal::backdrop {
     backdrop-filter: blur(5px);
 }
 
-.deleteFcImg {
+.deleteFoodImg {
     width: 200px !important;
     height: 200px !important;
     aspect-ratio: 1;
     object-fit: contain;
 }
 
-.editFcModal {
+.editFoodModal {
     width: 50%;
-    height: 70%;
+    height: 85%;
     position: relative;
     right: auto;
-    top: 15%;
+    top: 8%;
     left: 25%;
     bottom: auto;
     padding: 3%;
 }
 
-.editFcModal::backdrop {
+.editFoodModal::backdrop {
     backdrop-filter: blur(5px);
 }
 
-.editFcBtn {
+.editFoodBtn {
     background-color: #262626;
     color: white;
-    padding: 7px 0;
     font-size: large;
-    font-weight: 400;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     border: 2px inset white;
 }
 
-.editFcBtn:active {
+.editFoodBtn:active {
     border: 2px outset white;
     color: rgb(203, 203, 203);
 }
 
-.editFcCancelBtn {
+.editFoodCancelBtn {
     background-color: transparent;
     color: black;
-    padding: 7px 0;
     font-size: large;
-    font-weight: 600;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     border: 2px inset grey;
 }
 
-.editFcCancelBtn:active {
+.editFoodCancelBtn:active {
     border: 2px outset grey;
     color: #262626;
 }
 
-.editFcModalContentDiv form input[type=text] {
+.editFoodModalContentDiv form input[type=text] {
     border: 2px outset lightgray;
     font-size: large;
     outline: none;
     letter-spacing: 0.5px;
 }
 
-.editFcModalContentDiv form input[type=file] {
+.editFoodModalContentDiv form input[type=file] {
     border: 2px outset lightgray;
     font-size: large;
     letter-spacing: 0.5px;
 }
 
-.editFcModalContentDiv form input[type=text]:focus,
-input[type=file]:focus {
+.editFoodModalContentDiv form select {
+    border: 2px outset lightgray;
+    font-size: large;
+    letter-spacing: 0.5px;
+}
+
+.editFoodModalContentDiv form input[type=text]:focus,
+input[type=file],
+select:focus {
     border: 2px inset lightgray;
 }
 
@@ -802,12 +784,12 @@ input[type=file]:focus {
     border-radius: 3px;
     margin: 2.5px 10px 2.5px 2.5px;
     letter-spacing: 0.5px;
-    padding: 8px;
+    padding: 5px;
 }
 
-.editFcModalImg {
-    width: 180px !important;
-    height: 180px !important;
+.editFoodModalImg {
+    width: 150px !important;
+    height: 150px !important;
     aspect-ratio: 1;
     object-fit: contain;
 }
