@@ -18,7 +18,7 @@ if (!empty($_POST["email"]) && !empty($_POST["password"])) {
     if ($count == 1) {
         $role = $row['role'];
         // IF ROLE IS ADMIN
-        if ($role == 'Admin') {
+        if ($role == 'Admin' || 'SuperAdmin') {
             $adminSessionID = session_id();
             $_SESSION['authAdmin'] = $adminSessionID;
             // PASS ADMIN DETAILS

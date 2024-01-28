@@ -46,6 +46,7 @@ $tableNo = $_GET['tableNo'];
             <div class="loginFormHeader d-flex align-items-center justify-content-between">
                 <h1 class="m-0 p-0"></h1>
                 <h1 class="m-0 p-0">Sign In</h1>
+                
                 <h1 class="m-0 p-0 h1 loginFormModalCloseIcon text-danger" onclick="loginFormModal.close()">&Cross;</h1>
             </div>
         </div>

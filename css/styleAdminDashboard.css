@@ -89,6 +89,10 @@ body {
     background-color: #F8F8F8;
 }
 
+.profileDiv {
+    cursor: pointer;
+}
+
 /* ☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢ */
 /* ☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢ */
 /* 𝗢𝗥𝗗𝗘𝗥𝗦 𝗣𝗔𝗚𝗘 */
@@ -792,4 +796,136 @@ select:focus {
     height: 150px !important;
     aspect-ratio: 1;
     object-fit: contain;
+}
+
+/* ☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢ */
+/* ☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢ */
+/* 𝗔𝗗𝗠𝗜𝗡 𝗣𝗔𝗚𝗘 */
+/* ☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢ */
+/* ☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢☢ */
+
+.adminProfileHeader {
+    letter-spacing: 0.5px;
+}
+
+.adminCardsDiv {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.addAdminBtn {
+    background-color: #262626;
+    color: white;
+    padding: 7px 0;
+    font-size: large;
+    font-weight: 400;
+    letter-spacing: 1px;
+    border: 2px inset white;
+}
+
+.addAdminBtn:active {
+    border: 2px outset white;
+    color: rgb(203, 203, 203);
+}
+
+.adminProfilePic {
+    object-fit: contain;
+    aspect-ratio: 1/1;
+    width: 170px;
+    height: 170px;
+}
+
+.editAdminBtn {
+    background-color: #262626;
+    color: white;
+    border: 2px inset white;
+    letter-spacing: 0.3px;
+}
+
+.editAdminBtn:active {
+    border: 2px outset white;
+    color: rgb(255, 255, 255);
+}
+
+.deleteAdminBtn {
+    border: 2px inset grey;
+    letter-spacing: 0.3px;
+}
+
+.deleteAdminBtn:active {
+    border: 2px outset grey;
+}
+
+.adminDetails h1,
+.adminDetails h1 a {
+    color: #262626;
+}
+
+.addAdminModal {
+    width: 50%;
+    height: 75%;
+    position: relative;
+    right: auto;
+    top: 12%;
+    left: 25%;
+    bottom: auto;
+    padding: 3%;
+}
+
+.addAdminModal::backdrop {
+    backdrop-filter: blur(5px);
+}
+
+.addAdminConfirmBtn {
+    background-color: #262626;
+    color: white;
+    font-size: large;
+    letter-spacing: 0.5px;
+    border: 2px inset white;
+}
+
+.addAdminConfirmBtn:active {
+    border: 2px outset white;
+    color: rgb(203, 203, 203);
+}
+
+.addAdminCancelBtn {
+    background-color: transparent;
+    color: black;
+    font-size: large;
+    letter-spacing: 0.5px;
+    border: 2px inset grey;
+}
+
+.addAdminCancelBtn:active {
+    border: 2px outset grey;
+    color: #262626;
+}
+
+.addAdminModalContentDiv form input[type=text] {
+    border: 2px outset lightgray;
+    font-size: large;
+    outline: none;
+    letter-spacing: 0.5px;
+}
+
+.addAdminModalContentDiv form input[type=file] {
+    border: 2px outset lightgray;
+    font-size: large;
+    letter-spacing: 0.5px;
+}
+
+.addAdminModalContentDiv form input[type=text]:focus,
+input[type=file]:focus {
+    border: 2px inset lightgray;
+}
+
+::-webkit-file-upload-button {
+    background: #505050;
+    color: white;
+    width: 45%;
+    border-radius: 3px;
+    margin: 2.5px 10px 2.5px 2.5px;
+    letter-spacing: 0.5px;
+    padding: 5px;
 }

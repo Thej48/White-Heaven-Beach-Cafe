@@ -83,7 +83,7 @@ if (!isset($_SESSION['authAdmin'])) {
                 ?>
 
                 <div class="profileSection d-flex flex-column row-gap-2 container">
-                    <div class="row container d-flex">
+                    <div class="row container d-flex profileDiv" onclick="document.location.href='./adminProfile.php'">
                         <?php echo '<img src="data:image;base64,' . $photo . '" alt="Profile Picture" class="d-flex rounded m-0 p-0 justify-content-center col-sm-3 profilePic">'; ?>
                         <div class="row col-sm-8 mx-0 d-flex">
                             <span class="h6 m-0 p-0 fw-bold"><?php echo "$adminName"; ?></span>
