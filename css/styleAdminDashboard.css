@@ -929,3 +929,88 @@ input[type=file]:focus {
     letter-spacing: 0.5px;
     padding: 5px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.editAdminModal {
+    width: 50%;
+    height: 75%;
+    position: relative;
+    right: auto;
+    top: 12%;
+    left: 25%;
+    bottom: auto;
+    padding: 3%;
+}
+
+.editAdminModal::backdrop {
+    backdrop-filter: blur(5px);
+}
+
+.editAdminConfirmBtn {
+    background-color: #262626;
+    color: white;
+    font-size: large;
+    letter-spacing: 0.5px;
+    border: 2px inset white;
+}
+
+.editAdminConfirmBtn:active {
+    border: 2px outset white;
+    color: rgb(203, 203, 203);
+}
+
+.editAdminCancelBtn {
+    background-color: transparent;
+    color: black;
+    font-size: large;
+    letter-spacing: 0.5px;
+    border: 2px inset grey;
+}
+
+.editAdminCancelBtn:active {
+    border: 2px outset grey;
+    color: #262626;
+}
+
+.editAdminModalContentDiv form input[type=text] {
+    border: 2px outset lightgray;
+    font-size: large;
+    outline: none;
+    letter-spacing: 0.5px;
+}
+
+.editAdminModalContentDiv form input[type=file] {
+    border: 2px outset lightgray;
+    font-size: large;
+    letter-spacing: 0.5px;
+}
+
+.editAdminModalContentDiv form input[type=text]:focus,
+input[type=file]:focus {
+    border: 2px inset lightgray;
+}
+
+::-webkit-file-upload-button {
+    background: #505050;
+    color: white;
+    width: 45%;
+    border-radius: 3px;
+    margin: 2.5px 10px 2.5px 2.5px;
+    letter-spacing: 0.5px;
+    padding: 5px;
+}

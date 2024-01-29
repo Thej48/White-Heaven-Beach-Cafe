@@ -79,7 +79,8 @@ if (!isset($_SESSION['authAdmin'])) {
                 $queryGetProfilePic = "SELECT * FROM admin WHERE admin_id='$admin_id'";
                 $result = mysqli_query($conn, $queryGetProfilePic);
                 $row = mysqli_fetch_array($result);
-                $photo = base64_encode($row['admin_photo']);
+
+                $photo = base64_encode(base64_decode($row['admin_photo']));
                 ?>
 
                 <div class="profileSection d-flex flex-column row-gap-2 container">
@@ -97,13 +98,31 @@ if (!isset($_SESSION['authAdmin'])) {
                 </div>
             </div>
 
+            <?php
+            $randomNumber = rand(103, 999);
+            $adminId = 'WHBC' . $randomNumber;
+
+            $getAdminID = "SELECT * FROM admin WHERE admin_id=?";
+            $prepareAdminID = $conn->prepare($getAdminID);
+            $prepareAdminID->bind_param("i", $adminId);
+            $prepareAdminID->execute();
+            $AdminIDResult = $prepareAdminID->get_result();
+            if ($AdminIDResult->num_rows >= 1) {
+                $randomNumber = rand(103, 999);
+                $adminId = 'WHBC' . $randomNumber;
+            } else {
+                $adminId = 'WHBC' . $randomNumber;
+            }
+
+            ?>
+
             <div class="col-sm-10 d-flex flex-column dashboardBodyDiv">
                 <div class="py-2 m-0 d-flex align-items-center tableHeaderControlDiv border-bottom border-dark-subtle">
                     <h1 class="p-0 m-0 h2 w-50 fw-medium adminProfileHeader">Admin Profile</h1>
                     <div class="tableSearchAdd w-50 d-flex gap-3 justify-content-end">
                         <!-- <input type="search" name="tableSearchBox" id="tableSearchBox" placeholder="Search here..." class="col-sm-8 rounded tableSearchBox"> -->
                         <?php if ($row['role'] == 'SuperAdmin') { ?>
-                            <input type="submit" value="Add Admin" class="col-sm-3 rounded addAdminBtn" onclick="addAdminModal.showModal()">
+                            <input type="submit" name="addAdminBtn" value="Add Admin" class="col-sm-3 rounded addAdminBtn" onclick="openAddAdminModal('<?php echo $adminId; ?>')">
                         <?php } ?>
                     </div>
                 </div>
@@ -116,10 +135,11 @@ if (!isset($_SESSION['authAdmin'])) {
                 <?php if ($getAdminDataRes->num_rows > 0) { ?>
                     <div class="overflow-auto py-3 px-2 container align-self-center  gap-3 adminCardsDiv">
                         <?php while ($data = $getAdminDataRes->fetch_assoc()) {
-                            $adminProfile = base64_encode($data['admin_photo']); ?>
+                            $adminProfile = base64_decode($data['admin_photo']); ?>
+
                             <div class="card bg-white border border-secondary-subtle shadow-sm rounded-1 col col-sm-auto w-100 p-2 FoodCard">
                                 <div class="adminDetailsDiv d-flex gap-2">
-                                    <img src="data:image;base64,<?php echo $adminProfile ?>" alt="<?php echo $data['admin_name']; ?>" class="adminProfilePic rounded-1">
+                                    <img src="data:image;base64,<?php echo base64_encode($adminProfile) ?>" alt="<?php echo $data['admin_name']; ?>" class="adminProfilePic rounded-1">
                                     <div class="adminDetails d-flex flex-column justify-content-between w-100">
                                         <div class="adminInfo">
 
@@ -170,19 +190,23 @@ if (!isset($_SESSION['authAdmin'])) {
                                         <div class="adminControlsDiv d-flex gap-2">
                                             <?php if ($row['role'] == 'SuperAdmin') { ?>
                                                 <?php if ($data['admin_id'] == $admin_id) { ?>
-                                                    <input type="submit" value="Edit" class="editAdminBtn w-50 rounded py-1 fw-medium" id="editAdminBtn">
-                                                    <input type="submit" value="Delete" class="deleteAdminBtn bg-secondary-subtle w-50 rounded py-1 fw-bold" id="deleteAdminBtn" style="pointer-events: none;" disabled readonly>
+                                                    <?php echo "
+                                                    <input type='submit' value='Edit' class='editAdminBtn w-50 rounded py-1 fw-medium' id='editAdminBtn' onClick='openEditAdminModal(\"" . $data['admin_photo'] . "\", \"" . $data['admin_name'] . "\", \"" . $data['id'] . "\", \"" . $data['admin_email'] . "\", \"" . $data['admin_phone'] . "\")'>
+                                                    <input type='submit' value='Delete' class='deleteAdminBtn bg-secondary-subtle w-50 rounded py-1 fw-bold' id='deleteAdminBtn' style='pointer-events: none;' disabled readonly> "; ?>
                                                 <?php } else { ?>
-                                                    <input type="submit" value="Edit" class="editAdminBtn w-50 rounded py-1 fw-medium" id="editAdminBtn">
-                                                    <input type="submit" value="Delete" class="deleteAdminBtn bg-secondary-subtle w-50 rounded py-1 fw-bold" id="deleteAdminBtn">
+                                                    <?php echo "
+                                                    <input type='submit' value='Edit' class='editAdminBtn w-50 rounded py-1 fw-medium' id='editAdminBtn' onClick='openEditAdminModal(\"" . $data['admin_photo'] . "\", \"" . $data['admin_name'] . "\", \"" . $data['id'] . "\", \"" . $data['admin_email'] . "\", \"" . $data['admin_phone'] . "\")'>
+                                                    <input type='submit' value='Delete' class='deleteAdminBtn bg-secondary-subtle w-50 rounded py-1 fw-bold' id='deleteAdminBtn'> "; ?>
                                                 <?php } ?>
                                             <?php } elseif ($row['role'] == 'Admin') { ?>
                                                 <?php if ($data['admin_id'] == $admin_id) { ?>
-                                                    <input type="submit" value="Edit" class="editAdminBtn w-50 rounded py-1 fw-medium" id="editAdminBtn">
-                                                    <input type="submit" value="Delete" class="deleteAdminBtn bg-secondary-subtle w-50 rounded py-1 fw-bold" id="deleteAdminBtn" style="pointer-events: none;" disabled readonly>
+                                                    <?php echo "
+                                                    <input type='submit' value='Edit' class='editAdminBtn w-50 rounded py-1 fw-medium' id='editAdminBtn' onClick='openEditAdminModal(\"" . $data['admin_photo'] . "\", \"" . $data['admin_name'] . "\", \"" . $data['id'] . "\", \"" . $data['admin_email'] . "\", \"" . $data['admin_phone'] . "\")'>
+                                                    <input type='submit' value='Delete' class='deleteAdminBtn bg-secondary-subtle w-50 rounded py-1 fw-bold' id='deleteAdminBtn' style='pointer-events: none;' disabled readonly> "; ?>
                                                 <?php } else { ?>
-                                                    <input type="submit" value="Edit" class="editAdminBtn w-50 rounded py-1 fw-medium" id="editAdminBtn" style="pointer-events: none;" disabled readonly>
-                                                    <input type="submit" value="Delete" class="deleteAdminBtn bg-secondary-subtle w-50 rounded py-1 fw-bold" id="deleteAdminBtn" style="pointer-events: none;" disabled readonly>
+                                                    <?php echo "
+                                                    <input type='submit' value='Edit' class='editAdminBtn w-50 rounded py-1 fw-medium' id='editAdminBtn' onClick='openEditAdminModal(\"" . $data['admin_photo'] . "\", \"" . $data['admin_name'] . "\", \"" . $data['id'] . "\", \"" . $data['admin_email'] . "\", \"" . $data['admin_phone'] . "\")' style='pointer-events: none;' disabled readonly>
+                                                    <input type='submit' value='Delete' class='deleteAdminBtn bg-secondary-subtle w-50 rounded py-1 fw-bold' id='deleteAdminBtn' style='pointer-events: none;' disabled readonly> "; ?>
                                                 <?php } ?>
                                             <?php } ?>
                                         </div>
@@ -199,12 +223,24 @@ if (!isset($_SESSION['authAdmin'])) {
 
     </div>
 
+
+
+    <script>
+        function openAddAdminModal(adminId) {
+            addAdminModal.showModal();
+            document.getElementById('admin_id').value = adminId;
+        }
+    </script>
+
+
+
+    <!-- ADD ADMIN MODAL -->
     <dialog class="addAdminModal rounded p-3" id="addAdminModal">
         <div class="addAdminModalContentDiv h-100 d-flex flex-column p-0 m-0 align-self-center align-items-center justify-content-center">
             <h1 class="m-0 p-0 display-6 fw-bold">Add Admin</h1>
             <hr class="w-100 my-2">
-            <form action="" method="post" enctype="multipart/form-data" class="d-flex flex-column align-items-center w-75">
-                <input type="text" name="admin_id" placeholder="Enter Admin ID" id="admin_id" class="admin_id col-sm-11 my-2 py-2 px-4 rounded" required>
+            <form action="./adminProfile.php" method="post" enctype="multipart/form-data" class="d-flex flex-column align-items-center w-75">
+                <input type="text" name="admin_id" placeholder="Enter Admin ID" id="admin_id" class="admin_id col-sm-11 my-2 py-2 px-4 rounded" required readonly>
                 <input type="text" name="admin_name" placeholder="Enter Admin Name" id="admin_name" class="admin_name col-sm-11 my-2 py-2 px-4 rounded" required>
                 <input type="text" name="admin_email" placeholder="Enter Email ID" id="admin_email" class="admin_email col-sm-11 my-2 py-2 px-4 rounded" required>
                 <input type="text" name="admin_phone" placeholder="Enter Phone Number" id="admin_phone" class="admin_phone col-sm-11 my-2 py-2 px-4 rounded" required>
@@ -217,6 +253,121 @@ if (!isset($_SESSION['authAdmin'])) {
             </form>
         </div>
     </dialog>
+
+
+
+    <!-- EDIT ADMIN MODAL -->
+    <dialog class="editAdminModal rounded p-3" id="editAdminModal">
+        <div class="editAdminModalContentDiv h-100 d-flex flex-column p-0 m-0 align-self-center align-items-center justify-content-center">
+            <h1 class="m-0 p-0 display-6 fw-bold">Add Admin</h1>
+            <hr class="w-100 my-2">
+            <img src="" alt="admin-image" class="adminImgEditModal">
+            <form action="./adminProfile.php" method="post" enctype="multipart/form-data" class="d-flex flex-column align-items-center w-75">
+                <!-- <input type="text" name="admin_id" placeholder="Enter Admin ID" id="admin_id" class="admin_id col-sm-11 my-2 py-2 px-4 rounded" required readonly> -->
+                <input type="text" name="edit_admin_id" placeholder="Enter Admin ID" id="edit_admin_id" class="edit_admin_id col-sm-11 my-2 py-2 px-4 rounded" required>
+                <input type="text" name="edit_admin_name" placeholder="Enter Admin Name" id="edit_admin_name" class="edit_admin_name col-sm-11 my-2 py-2 px-4 rounded" required>
+                <input type="text" name="edit_admin_email" placeholder="Enter Email ID" id="edit_admin_email" class="edit_admin_email col-sm-11 my-2 py-2 px-4 rounded" required>
+                <input type="text" name="edit_admin_phone" placeholder="Enter Phone Number" id="edit_admin_phone" class="edit_admin_phone col-sm-11 my-2 py-2 px-4 rounded" required>
+                <input type="file" name="edit_admin_photo" id="edit_admin_photo" class="col-sm-11 my-2 rounded edit_admin_photo" required>
+                <!-- <input type="text" name="admin_password" placeholder="Enter Password" id="admin_password" class="admin_password col-sm-11 my-2 py-2 px-4 rounded" required> -->
+                <div class="editAdminControlDiv col-sm-11 d-flex align-items-center justify-content-center gap-3 mt-2">
+                    <input type="submit" value="Add Admin" class="editAdminConfirmBtn w-50 py-2 fs-4 rounded">
+                    <input type="submit" value="Cancel" class="editAdminCancelBtn w-50 py-2 fs-4 rounded bg-secondary-subtle" onclick="editAdminModal.close()">
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+
+
+    <!-- EDIT ADMIN DATA FUNCTION -->
+    <script>
+        function openEditAdminModal(editAdminImgData, editAdminName, editAdminID, editAdminEmail, editAdminPhone) {
+            var editAdminModal = document.getElementById('editAdminModal');
+            var editAdminImg = editAdminModal.querySelector('.adminImgEditModal');
+            document.getElementById('edit_admin_name').value = editAdminName;
+            document.getElementById('edit_admin_id').value = editAdminID;
+            document.getElementById('edit_admin_phone').value = editAdminPhone;
+            document.getElementById('edit_admin_email').value = editAdminEmail;
+
+            // Create a temporary canvas
+            var canvas = document.createElement('canvas');
+            var context = canvas.getContext('2d');
+
+            // Create a new image element
+            var image = new Image();
+
+            // Set the source of the new image to the QR image data
+            image.src = 'data:image;base64,' + editAdminImgData;
+
+            // Wait for the image to load
+            image.onload = function() {
+                // Set the canvas size to match the image
+                canvas.width = image.width;
+                canvas.height = image.height;
+
+                // Draw the image onto the canvas
+                context.drawImage(image, 0, 0);
+
+                // Convert the canvas content to a blob with JPG format
+                canvas.toBlob(function(blob) {
+                    // Create a new image element with the blob as the source
+                    var newImage = new Image();
+                    newImage.src = URL.createObjectURL(blob);
+
+                    // Set the source of the modal's image to the new image source
+                    editAdminImg.src = newImage.src;
+
+                    // Set the table name in the modal header
+                    // editFcName.value = editFcName;
+
+                    // editFcUrl = "./foodcategory.php?editFcId=" + editFcID;
+
+                    // Open the modal
+                    editAdminModal.showModal();
+                }, 'image/jpeg', 1.0); // 1.0 means full quality
+            };
+        }
+    </script>
+
+
+
+    <!-- ADD ADMIN -->
+    <script>
+        <?php
+        if (isset($_POST['admin_id']) && isset($_POST['admin_name']) && isset($_POST['admin_email']) && isset($_POST['admin_phone']) && isset($_FILES['admin_photo']) && isset($_POST['admin_password'])) {
+            $admin_id = $_POST['admin_id'];
+            $admin_name = $_POST['admin_name'];
+            $admin_email = $_POST['admin_email'];
+            $admin_phone = $_POST['admin_phone'];
+            $admin_password = md5($_POST['admin_password']);
+
+            $GetAdminImg = $_FILES['admin_photo']['tmp_name'];
+            $name = addslashes($_FILES["admin_photo"]["tmp_name"]);
+            $AdminImageData = file_get_contents($GetAdminImg);
+            $admin_photo = base64_encode($AdminImageData);
+
+            $checkIfAdminExists = "SELECT * FROM admin WHERE admin_id=? ";
+            $checkForAdmin = $conn->prepare($checkIfAdminExists);
+            $checkForAdmin->bind_param('s', $admin_id);
+            $checkForAdmin->execute();
+            $checkForAdminResult = $checkForAdmin->get_result();
+
+            if ($checkForAdminResult->num_rows >= 1) { ?>
+                window.location.href = "./adminProfile.php";
+                <?php } else {
+                $addAdminQuery = "INSERT INTO admin(admin_id, admin_name, admin_email, admin_phone, admin_password, admin_photo) VALUES ('$admin_id', '$admin_name','$admin_email', '$admin_phone','$admin_password','$admin_photo') ";
+                $addAdminRun = mysqli_query($conn, $addAdminQuery);
+                if ($addAdminRun) { ?>
+                    window.location.href = "./adminProfile.php";
+                <?php } else { ?>
+                    window.location.href = "./adminProfile.php";
+        <?php }
+            }
+        }
+        ?>
+    </script>
+
 
 </body>
 

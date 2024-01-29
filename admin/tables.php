@@ -79,7 +79,7 @@ if (!isset($_SESSION['authAdmin'])) {
                 $queryGetProfilePic = "SELECT * FROM admin WHERE admin_id='$admin_id'";
                 $result = mysqli_query($conn, $queryGetProfilePic);
                 $row = mysqli_fetch_array($result);
-                $photo = base64_encode($row['admin_photo']);
+                $photo = base64_encode(base64_decode($row['admin_photo']));
                 ?>
 
                 <div class="profileSection d-flex flex-column row-gap-2 container">
