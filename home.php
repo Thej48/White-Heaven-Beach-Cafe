@@ -50,8 +50,8 @@ $tableNo = $_GET['tableNo'];
             </div>
             <hr class="py-0"> 
             <form action="" method="post" class="d-flex flex-column ">
-                <input type="text" name="endusername" id="endusername" class="w-100 rounded-1 my-2 py-2 px-3 endusername" placeholder="Enter Name" required>
-                <input type="tel" name="enduserphone" id="enduserphone" class="w-100 rounded-1 my-2 py-2 px-3 enduserphone" pattern="[0-9]{10}" maxlength="15"  placeholder="Enter Phone Number" required>
+                <input type="text" name="signInUserName" id="signInUserName" class="w-100 rounded-1 my-2 py-2 px-3 signInUserName" placeholder="Enter Name" required>
+                <input type="tel" name="signInUserPhone" id="signInUserPhone" class="w-100 rounded-1 my-2 py-2 px-3 signInUserPhone" pattern="[0-9]{10}" maxlength="15"  placeholder="Enter Phone Number" required>
                 <input type="submit" name="userSignInBtn" value="Sign In" class="w-100 rounded-1 my-2 py-2 px-3 signInBtn">
                 <span class="text-center h6 mt-3 text-body-secondary">Don't have an account? <span class="fw-bold changeModalTxt text-secondary-emphasis" onclick="openSignUpDialog()">Sign Up</span></span>
             </form>
@@ -78,8 +78,8 @@ $tableNo = $_GET['tableNo'];
             </div>
             <hr class="py-0"> 
             <form action="" method="post" class="d-flex flex-column ">
-                <input type="text" name="endusername" id="endusername" class="w-100 rounded-1 my-2 py-2 px-3 endusername" placeholder="Enter Name" required>
-                <input type="tel" name="enduserphone" id="enduserphone" class="w-100 rounded-1 my-2 py-2 px-3 enduserphone" pattern="[0-9]{10}" maxlength="15"  placeholder="Enter Phone Number" required>
+                <input type="text" name="singUpUserName" id="singUpUserName" class="w-100 rounded-1 my-2 py-2 px-3 singUpUserName" placeholder="Enter Name" required>
+                <input type="tel" name="singUpUserPhone" id="singUpUserPhone" class="w-100 rounded-1 my-2 py-2 px-3 singUpUserPhone" pattern="[0-9]{10}" maxlength="15"  placeholder="Enter Phone Number" required>
                 <input type="submit" name="userSignInBtn" value="Sign Up" class="w-100 rounded-1 my-2 py-2 px-3 signUpBtn">
                 <span class="text-center h6 mt-3 text-body-secondary">Already have an account? <span class="fw-bold changeModalTxt text-secondary-emphasis" onclick="openSignInDialog()">Sign In</span></span>
             </form>
@@ -88,6 +88,8 @@ $tableNo = $_GET['tableNo'];
 
     <script src="./bootstrap/js/bootstrap.bundle.js"></script>
     <script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
 
 </body>
 
