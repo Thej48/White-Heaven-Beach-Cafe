@@ -64,7 +64,7 @@ body {
     width: 85%;
     height: auto;
     position: relative;
-    top: 35%;
+    top: 25%;
     bottom: auto;
     left: 7%;
     right: auto;
@@ -73,6 +73,25 @@ body {
 .loginFormModal::backdrop {
     backdrop-filter: blur(5px);
 }
+
+.signUpFormModalCloseIcon {
+    cursor: pointer;
+}
+
+.signUpFormModal {
+    width: 85%;
+    height: auto;
+    position: relative;
+    top: 25%;
+    bottom: auto;
+    left: 7%;
+    right: auto;
+}
+
+.signUpFormModal::backdrop {
+    backdrop-filter: blur(5px);
+}
+
 
 @media (min-width:1000px) {
     .homeContentBox {
@@ -88,7 +107,17 @@ body {
         width: 30%;
         height: auto;
         position: relative;
-        top: 30%;
+        top: 20%;
+        bottom: auto;
+        left: 35%;
+        right: auto;
+    }
+
+    .signUpFormModal {
+        width: 30%;
+        height: auto;
+        position: relative;
+        top: 20%;
         bottom: auto;
         left: 35%;
         right: auto;
