@@ -60,17 +60,17 @@ body {
     cursor: pointer;
 }
 
-.loginFormModal{
+.loginFormModal {
     width: 85%;
-    height: 60%;
+    height: auto;
     position: relative;
-    top: 20%;
+    top: 35%;
     bottom: auto;
     left: 7%;
     right: auto;
 }
 
-.loginFormModal::backdrop{
+.loginFormModal::backdrop {
     backdrop-filter: blur(5px);
 }
 
@@ -84,13 +84,13 @@ body {
         background-position: center right;
     }
 
-    .loginFormModal{
-        width: 50%;
-        height: 60%;
+    .loginFormModal {
+        width: 30%;
+        height: auto;
         position: relative;
-        top: 20%;
+        top: 30%;
         bottom: auto;
-        left: 25%;
+        left: 35%;
         right: auto;
     }
 }

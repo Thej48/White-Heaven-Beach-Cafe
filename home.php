@@ -42,13 +42,16 @@ $tableNo = $_GET['tableNo'];
     </div>
 
     <dialog class="loginFormModal rounded" id="loginFormModal">
-        <div class="loginFormModalDiv p-3 bg-warning">
-            <div class="loginFormHeader d-flex align-items-center justify-content-between">
+        <div class="loginFormModalDiv px-4 py-5">
+            <div class="loginFormHeader d-flex align-items-top justify-content-between p-0 m-0">
                 <h1 class="m-0 p-0"></h1>
-                <h1 class="m-0 p-0">Sign In</h1>
-                
-                <h1 class="m-0 p-0 h1 loginFormModalCloseIcon text-danger" onclick="loginFormModal.close()">&Cross;</h1>
+                <h1 class="m-0 p-0 display-2 fw-bold">Sign In</h1>
+                <h1 class="m-0 p-0 fs-1 loginFormModalCloseIcon text-danger" onclick="loginFormModal.close()">&Cross;</h1>
             </div>
+            <hr class="py-2"> 
+            <input type="text" name="endusername" id="endusername" class="endusername">
+            <input type="email" name="endusereamil" id="endusereamil" class="endusereamil">
+            <input type="submit" value="SignIn">
         </div>
     </dialog>
 
