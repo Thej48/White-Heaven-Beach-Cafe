@@ -44,33 +44,44 @@ $tableNo = $_GET['tableNo'];
     <dialog class="loginFormModal rounded" id="loginFormModal">
         <div class="loginFormModalDiv px-4 py-4">
             <div class="loginFormHeader d-flex align-items-top justify-content-between p-0 m-0">
-                <h1 class="m-0 p-0"></h1>
-                <h1 class="m-0 p-0 display-2 fw-bold">Sign In</h1>
+                <h1 class="m-0 p-0">&nbsp;</h1>
+                <h1 class="m-0 p-0 display-2 fw-bold text-secondary-emphasis">Sign In</h1>
                 <h1 class="m-0 p-0 fs-1 loginFormModalCloseIcon text-danger" onclick="loginFormModal.close()">&Cross;</h1>
             </div>
             <hr class="py-0"> 
             <form action="" method="post" class="d-flex flex-column ">
                 <input type="text" name="endusername" id="endusername" class="w-100 rounded-1 my-2 py-2 px-3 endusername" placeholder="Enter Name" required>
                 <input type="tel" name="enduserphone" id="enduserphone" class="w-100 rounded-1 my-2 py-2 px-3 enduserphone" pattern="[0-9]{10}" maxlength="15"  placeholder="Enter Phone Number" required>
-                <input type="submit" name="userSignInBtn" value="Sign In" class="w-100 rounded-1 my-2 py-2 px-3">
-                <span class="text-center h6 mt-3">Don't have an account? <span class="fw-bold" onclick="signUpFormModal.showModal()">Sign Up</span></span>
+                <input type="submit" name="userSignInBtn" value="Sign In" class="w-100 rounded-1 my-2 py-2 px-3 signInBtn">
+                <span class="text-center h6 mt-3 text-body-secondary">Don't have an account? <span class="fw-bold changeModalTxt text-secondary-emphasis" onclick="openSignUpDialog()">Sign Up</span></span>
             </form>
         </div>
     </dialog>
 
+    <script>
+        function openSignUpDialog(){
+            loginFormModal.close();
+            signUpFormModal.showModal();
+        }
+        function openSignInDialog(){
+            signUpFormModal.close();
+            loginFormModal.showModal();
+        }
+    </script>
+
     <dialog class="signUpFormModal rounded" id="signUpFormModal">
         <div class="signUpFormModalDiv px-4 py-4">
             <div class="loginFormHeader d-flex align-items-top justify-content-between p-0 m-0">
-                <h1 class="m-0 p-0"></h1>
-                <h1 class="m-0 p-0 display-2 fw-bold">Sign Up</h1>
+                <h1 class="m-0 p-0">&nbsp;</h1>
+                <h1 class="m-0 p-0 display-2 fw-bold text-secondary-emphasis">Sign Up</h1>
                 <h1 class="m-0 p-0 fs-1 signUpFormModalCloseIcon text-danger" onclick="signUpFormModal.close()">&Cross;</h1>
             </div>
             <hr class="py-0"> 
             <form action="" method="post" class="d-flex flex-column ">
                 <input type="text" name="endusername" id="endusername" class="w-100 rounded-1 my-2 py-2 px-3 endusername" placeholder="Enter Name" required>
                 <input type="tel" name="enduserphone" id="enduserphone" class="w-100 rounded-1 my-2 py-2 px-3 enduserphone" pattern="[0-9]{10}" maxlength="15"  placeholder="Enter Phone Number" required>
-                <input type="submit" name="userSignInBtn" value="Sign In" class="w-100 rounded-1 my-2 py-2 px-3">
-                <span class="text-center h6 mt-3">Don't have an account? <span class="fw-bold">Sign Up</span></span>
+                <input type="submit" name="userSignInBtn" value="Sign Up" class="w-100 rounded-1 my-2 py-2 px-3 signUpBtn">
+                <span class="text-center h6 mt-3 text-body-secondary">Already have an account? <span class="fw-bold changeModalTxt text-secondary-emphasis" onclick="openSignInDialog()">Sign In</span></span>
             </form>
         </div>
     </dialog>
