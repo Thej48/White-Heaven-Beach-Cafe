@@ -92,7 +92,7 @@ body {
     backdrop-filter: blur(5px);
 }
 
-.changeModalTxt{
+.changeModalTxt {
     cursor: pointer;
 }
 
@@ -154,6 +154,95 @@ input[type=tel]:focus {
     border-color: #a7a7a7;
 }
 
+.cardsDiv {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.foodSearchBar {
+    /* padding: 1.5% 2% 1.5% 7%; */
+    background-color: #eeeeee !important;
+    color: #262626;
+    /* font-size: 15px; */
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    outline: none;
+    border: 2px inset gray;
+    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat 20px center;
+}
+
+.foodSearchBar:focus {
+    border: 2px outset gray;
+}
+
+.FoodName {
+    color: #262626;
+    letter-spacing: 0.3px;
+    font-size: medium;
+}
+
+.FoodCategory {
+    letter-spacing: 0.3px;
+    font-size: medium;
+}
+
+.FoodQuantity {
+    letter-spacing: 0.3px;
+    font-size: medium;
+}
+
+.QuantityControlDiv {
+    background-color: #f5f5f5;
+}
+
+.QuantityControlDiv button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.QuantityControlDiv button:hover {
+    background-color: #e5e5e5;
+}
+
+.quantityCountTxt {
+    outline: none;
+    border: none;
+    background: transparent;
+    text-align: center;
+    width: 30%;
+}
+
+.FoodTotalPrice {
+    outline: none;
+    border: none;
+    width: inherit;
+    /* background-color: #656565; */
+    text-align: end;
+}
+
+.addToCartBtn {
+    background-color: #FF9F14;
+    border: none;
+    outline: none;
+    width: 100%;
+    gap: 5px;
+    color: white;
+    font-size: large;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addToCartBtn:active {
+    box-shadow: 0px 0px 3px #a7a7a7;
+}
+
+.LaptopControls{
+    display: none !important;
+}
+
 @media (min-width:1000px) {
     .homeContentBox {
         background-image: url('../images/heroSectionDesktop.jpg');
@@ -183,4 +272,37 @@ input[type=tel]:focus {
         left: 35%;
         right: auto;
     }
+
+    .cardsDiv {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    .Price_N_AddToCart {
+        width: inherit;
+        justify-content: flex-end !important;
+    }
+
+    .FoodTotalPrice {
+        font-size: large;
+        color: #353535;
+        font-weight: 600;
+        width: 100%;
+        /* background-color: #555555; */
+    }
+
+    .addToCartBtn {
+        background-color: #FF9F14;
+        border: none;
+        outline: none;
+        width: max-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .LaptopControls{
+        display: flex !important;
+    }
+
 }
