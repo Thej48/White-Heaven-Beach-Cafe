@@ -191,6 +191,12 @@ input[type=tel]:focus {
     font-size: medium;
 }
 
+.MinusIcon,
+.PlusIcon {
+    width: 17px;
+    height: 17px;
+}
+
 .QuantityControlDiv {
     background-color: #f5f5f5;
 }
@@ -201,46 +207,41 @@ input[type=tel]:focus {
     outline: none;
 }
 
-.QuantityControlDiv button:hover {
-    background-color: #e5e5e5;
+.QuantityControlDiv button:active {
+    background-color: #dddddd;
 }
 
-.quantityCountTxt {
+.FoodQuantityCount,
+.FoodTotalPrice {
+    width: inherit;
     outline: none;
     border: none;
-    background: transparent;
-    text-align: center;
-    width: 30%;
+    background-color: transparent;
 }
 
 .FoodTotalPrice {
-    outline: none;
-    border: none;
-    width: inherit;
-    /* background-color: #656565; */
-    text-align: end;
+    font-size: large;
+    font-weight: 600;
 }
 
-.addToCartBtn {
+.AddToCartBtn {
     background-color: #FF9F14;
     border: none;
     outline: none;
+    /* padding: 6.5px;
+    border-radius: 5px;
     width: 100%;
-    gap: 5px;
+    gap: 5px; */
     color: white;
-    font-size: large;
+    /* font-size: large;
     font-weight: 400;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
 }
 
-.addToCartBtn:active {
+.AddToCartBtn:active {
     box-shadow: 0px 0px 3px #a7a7a7;
-}
-
-.LaptopControls{
-    display: none !important;
 }
 
 @media (min-width:1000px) {
@@ -278,31 +279,19 @@ input[type=tel]:focus {
         grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 
-    .Price_N_AddToCart {
-        width: inherit;
-        justify-content: flex-end !important;
+    .MinusIcon,
+    .PlusIcon {
+        width: 21px;
+        height: 21px;
+    }
+
+    .QuantityControlDiv button {
+        margin: 0 !important;
     }
 
     .FoodTotalPrice {
         font-size: large;
-        color: #353535;
         font-weight: 600;
-        width: 100%;
-        /* background-color: #555555; */
-    }
-
-    .addToCartBtn {
-        background-color: #FF9F14;
-        border: none;
-        outline: none;
-        width: max-content;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .LaptopControls{
-        display: flex !important;
     }
 
 }

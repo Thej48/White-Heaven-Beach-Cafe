@@ -56,21 +56,24 @@ if (!isset($_SESSION['AuthEndUser'])) {
                                 <h1 class=" fw-medium py-0 m-0 text-dark-emphasis FoodQuantity">&nbsp;</h1>
                             <?php } ?>
 
-                            <div class="FoodControlsDiv d-flex align-items-center justify-content-center LaptopControls">
-
-                                <div class="QuantityControlDiv d-flex justify-content-between w-50 border border-secondary-subtle rounded-1">
-                                    <button class='rounded-1 minusBtn d-flex align-items-center justify-content-center p-2'> <img src='./icons/minus.png' class='minusIcon' alt='minusIcon' width="25px" height="auto" /> </button>
-                                    <input name='quantity' class='w-25 p-0 m-0 fs-4 fw-bold quantityCount quantityCountTxt' id='quantityCount' min='1' value='1' readonly />
-                                    <button class='rounded-1 plusBtn d-flex align-items-center justify-content-center p-2'> <img src='./icons/plus.png' class='plusIcon' alt='plusIcon' width="25px" height="auto" /> </button>
+                            <div class="FoodControlsDiv mt-2 d-flex justify-content-between gap-1">
+                                <div class="QuantityControlDiv border border-secondary-subtle rounded-1 d-flex justify-content-between w-50">
+                                    <button class="MinusBtn p-2 rounded-1 d-flex align-items-center justify-content-center">
+                                        <img src="./icons/minus.png" alt="minus" class="MinusIcon">
+                                    </button>
+                                    <input name="FoodQuantityCount" id="FoodQuantityCount" class="FoodQuantityCount fs-6 fw-bold text-center p-0" value="1" min="1" readonly>
+                                    <button class="PlusBtn p-2 rounded-1 d-flex align-items-center justify-content-center">
+                                        <img src="./icons/plus.png" alt="plus" class="PlusIcon">
+                                    </button>
                                 </div>
-
-                                <div class="Price_N_AddToCart d-flex align-items-center justify-content-between w-50 gap-2">
-                                    <input type="text" name="FoodPrice" id="FoodPrice" class="FoodPrice" value="<?php echo number_format($data['price'], 2); ?>" readonly hidden>
-                                    <input type="text" name="FoodTotalPrice" id="FoodTotalPrice" class="fs-5 fw-bold text-dark-emphasis FoodTotalPrice" value="₹ <?php echo number_format($data['price'], 2); ?>" readonly>
-                                    <button name="addToCartBtn" class='addToCartBtn rounded-1 p-2 h-100'> <img src='./icons/addToCart.png' class='addToCartIcon' alt='addToCartIcon' width="25" height="auto" /> </button>
+                                <div class="FoodPriceDiv w-50">
+                                    <input type="text" name="FoodPrice" id="FoodPrice" class="FoodPrice" value="<?php echo number_format($data['price'], 2) ?>" readonly hidden>
+                                    <input type="text" name="FoodTotalPrice" id="FoodTotalPrice" class="FoodTotalPrice text-end h-100 w-100" value="₹ <?php echo number_format($data['price'], 2) ?>" readonly>
                                 </div>
-
                             </div>
+                            <button class="AddToCartBtn d-flex align-items-center justify-content-center gap-1 rounded-1 mt-2 py-1 fs-5 fw-medium">
+                                Add To Cart <img src="./icons/addToCart.png" alt="addtocart" width="23" height="23" class="AddToCartIcon">
+                            </button>
 
                         </div>
                     <?php } ?>
@@ -92,20 +95,20 @@ if (!isset($_SESSION['AuthEndUser'])) {
     <script>
         $(document).ready(function() {
             // Plus button click event
-            $('.plusBtn').on('click', function() {
+            $('.PlusBtn').on('click', function() {
                 var container = $(this).closest('.FoodCard');
                 updateQuantityAndPrice(container, 1);
             });
 
             // Minus button click event
-            $('.minusBtn').on('click', function() {
+            $('.MinusBtn').on('click', function() {
                 var container = $(this).closest('.FoodCard');
                 updateQuantityAndPrice(container, -1);
             });
 
             // Function to update quantity and price
             function updateQuantityAndPrice(container, change) {
-                var quantityCountInput = container.find('.quantityCountTxt');
+                var quantityCountInput = container.find('.FoodQuantityCount');
                 var priceInput = container.find('.FoodPrice');
                 var priceTxtInput = container.find('.FoodTotalPrice');
 
