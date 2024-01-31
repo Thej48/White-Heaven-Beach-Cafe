@@ -4,6 +4,8 @@ session_start();
 
 $tableNo = $_GET['tableNo'];
 
+$_SESSION['tableNo'] = $tableNo;
+
 ?>
 
 <!DOCTYPE html>
@@ -48,26 +50,66 @@ $tableNo = $_GET['tableNo'];
                 <h1 class="m-0 p-0 display-2 fw-bold text-secondary-emphasis">Sign In</h1>
                 <h1 class="m-0 p-0 fs-1 loginFormModalCloseIcon text-danger" onclick="loginFormModal.close()">&Cross;</h1>
             </div>
-            <hr class="py-0"> 
-            <form action="" method="post" class="d-flex flex-column ">
+            <hr class="my-2">
+            <!-- USER SIGN-UP SUCCESS -->
+            <?php if (isset($_SESSION['UserSignUpSuccess'])) { ?>
+                <div class="bg-success-subtle p-0 m-0 text-center border border-success rounded-1 text-success-emphasis" id="successMessage">
+                    <span class="p-0 m-0 fs-6 fw-bold d-flex gap-1 align-items-center justify-content-center py-1 px-1">
+                        <img src="./icons/tick-mark.png" alt="correct" height="25" width="auto" class="successMsgIcon">
+                        <?php echo $_SESSION['UserSignUpSuccess']; ?>
+                    </span>
+                </div>
+                <script>
+                    // Automatically unset the session after 3 seconds
+                    setTimeout(function() {
+                        var successMessage = document.getElementById('successMessage');
+                        successMessage.parentNode.removeChild(successMessage);
+                        <?php unset($_SESSION['UserSignUpSuccess']); ?>
+                    }, 3000);
+                </script>
+            <?php } ?>
+            <!-- USER LOGIN WITH INVALID CREDENTIALS -->
+            <?php if (isset($_SESSION['InvalidCredentials'])) { ?>
+                <div class="bg-danger-subtle p-0 m-0 text-center border border-danger rounded-1 text-danger-emphasis" id="failureMessage">
+                    <span class="p-0 m-0 fs-6 fw-bold d-flex gap-2 align-items-center justify-content-center py-1 px-1">
+                        <img src="./icons/warning.png" alt="correct" height="20" width="auto" class="FailureMsgIcon">
+                        <?php echo $_SESSION['InvalidCredentials']; ?>
+                    </span>
+                </div>
+                <script>
+                    // Automatically unset the session after 3 seconds
+                    setTimeout(function() {
+                        var failureMessage = document.getElementById('failureMessage');
+                        failureMessage.parentNode.removeChild(failureMessage);
+                        <?php unset($_SESSION['InvalidCredentials']); ?>
+                    }, 3000);
+                </script>
+            <?php } ?>
+            <!-- USER LOGIN WITH EMPTY CREDENTIALS -->
+            <?php if (isset($_SESSION['EmptyCredentials'])) { ?>
+                <div class="bg-danger-subtle p-0 m-0 text-center border border-danger rounded-1 text-danger-emphasis" id="failureMessage">
+                    <span class="p-0 m-0 fs-6 fw-bold d-flex gap-2 align-items-center justify-content-center py-1 px-1">
+                        <img src="./icons/warning.png" alt="correct" height="20" width="auto" class="FailureMsgIcon">
+                        <?php echo $_SESSION['EmptyCredentials']; ?>
+                    </span>
+                </div>
+                <script>
+                    // Automatically unset the session after 3 seconds
+                    setTimeout(function() {
+                        var failureMessage = document.getElementById('failureMessage');
+                        failureMessage.parentNode.removeChild(failureMessage);
+                        <?php unset($_SESSION['EmptyCredentials']); ?>
+                    }, 3000);
+                </script>
+            <?php } ?>
+            <form action="./checkUserLoginRegister.php?tableNo=<?php echo $tableNo ?>" method="post" class="d-flex flex-column ">
                 <input type="text" name="signInUserName" id="signInUserName" class="w-100 rounded-1 my-2 py-2 px-3 signInUserName" placeholder="Enter Name" required>
-                <input type="tel" name="signInUserPhone" id="signInUserPhone" class="w-100 rounded-1 my-2 py-2 px-3 signInUserPhone" pattern="[0-9]{10}" maxlength="15"  placeholder="Enter Phone Number" required>
+                <input type="tel" name="signInUserPhone" id="signInUserPhone" class="w-100 rounded-1 my-2 py-2 px-3 signInUserPhone" pattern="[0-9]{10}" maxlength="15" placeholder="Enter Phone Number" required>
                 <input type="submit" name="userSignInBtn" value="Sign In" class="w-100 rounded-1 my-2 py-2 px-3 signInBtn">
                 <span class="text-center h6 mt-3 text-body-secondary">Don't have an account? <span class="fw-bold changeModalTxt text-secondary-emphasis" onclick="openSignUpDialog()">Sign Up</span></span>
             </form>
         </div>
     </dialog>
-
-    <script>
-        function openSignUpDialog(){
-            loginFormModal.close();
-            signUpFormModal.showModal();
-        }
-        function openSignInDialog(){
-            signUpFormModal.close();
-            loginFormModal.showModal();
-        }
-    </script>
 
     <dialog class="signUpFormModal rounded" id="signUpFormModal">
         <div class="signUpFormModalDiv px-4 py-4">
@@ -76,15 +118,85 @@ $tableNo = $_GET['tableNo'];
                 <h1 class="m-0 p-0 display-2 fw-bold text-secondary-emphasis">Sign Up</h1>
                 <h1 class="m-0 p-0 fs-1 signUpFormModalCloseIcon text-danger" onclick="signUpFormModal.close()">&Cross;</h1>
             </div>
-            <hr class="py-0"> 
-            <form action="" method="post" class="d-flex flex-column ">
+            <hr class="my-2">
+            <!-- USER WITH PHONE NUMBER ALREADY EXISTS -->
+            <?php if (isset($_SESSION['UserWithPhoneNumberExists'])) { ?>
+                <div class="bg-danger-subtle p-0 m-0 text-center border border-danger rounded-1 text-danger-emphasis" id="failureMessage">
+                    <span class="p-0 m-0 fs-6 fw-bold d-flex gap-2 align-items-center justify-content-center py-1 px-1">
+                        <img src="./icons/warning.png" alt="correct" height="20" width="auto" class="FailureMsgIcon">
+                        <?php echo $_SESSION['UserWithPhoneNumberExists']; ?>
+                    </span>
+                </div>
+                <script>
+                    // Automatically unset the session after 3 seconds
+                    setTimeout(function() {
+                        var failureMessage = document.getElementById('failureMessage');
+                        failureMessage.parentNode.removeChild(failureMessage);
+                        <?php unset($_SESSION['UserWithPhoneNumberExists']); ?>
+                    }, 3000);
+                </script>
+            <?php } ?>
+            <!-- USER REGISTRATION FAILED -->
+            <?php if (isset($_SESSION['UserSignUpFailed'])) { ?>
+                <div class="bg-danger-subtle p-0 m-0 text-center border border-danger rounded-1 text-danger-emphasis" id="failureMessage">
+                    <span class="p-0 m-0 fs-6 fw-bold d-flex gap-2 align-items-center justify-content-center py-1 px-1">
+                        <img src="./icons/warning.png" alt="correct" height="20" width="auto" class="FailureMsgIcon">
+                        <?php echo $_SESSION['UserSignUpFailed']; ?>
+                    </span>
+                </div>
+                <script>
+                    // Automatically unset the session after 3 seconds
+                    setTimeout(function() {
+                        var failureMessage = document.getElementById('failureMessage');
+                        failureMessage.parentNode.removeChild(failureMessage);
+                        <?php unset($_SESSION['UserSignUpFailed']); ?>
+                    }, 3000);
+                </script>
+            <?php } ?>
+            <form action="./checkUserLoginRegister.php?tableNo=<?php echo $tableNo ?>" method="post" class="d-flex flex-column ">
                 <input type="text" name="singUpUserName" id="singUpUserName" class="w-100 rounded-1 my-2 py-2 px-3 singUpUserName" placeholder="Enter Name" required>
-                <input type="tel" name="singUpUserPhone" id="singUpUserPhone" class="w-100 rounded-1 my-2 py-2 px-3 singUpUserPhone" pattern="[0-9]{10}" maxlength="15"  placeholder="Enter Phone Number" required>
-                <input type="submit" name="userSignInBtn" value="Sign Up" class="w-100 rounded-1 my-2 py-2 px-3 signUpBtn">
+                <input type="tel" name="singUpUserPhone" id="singUpUserPhone" class="w-100 rounded-1 my-2 py-2 px-3 singUpUserPhone" pattern="[0-9]{10}" maxlength="15" placeholder="Enter Phone Number" required>
+                <input type="submit" name="userSignUpBtn" value="Sign Up" class="w-100 rounded-1 my-2 py-2 px-3 signUpBtn">
                 <span class="text-center h6 mt-3 text-body-secondary">Already have an account? <span class="fw-bold changeModalTxt text-secondary-emphasis" onclick="openSignInDialog()">Sign In</span></span>
             </form>
         </div>
     </dialog>
+
+    <script>
+        function openSignUpDialog() {
+            loginFormModal.close();
+            signUpFormModal.showModal();
+        }
+
+        function openSignInDialog() {
+            signUpFormModal.close();
+            loginFormModal.showModal();
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const openSignUpDialog = urlParams.get('openSignUpDialog');
+
+            if (openSignUpDialog === 'true') {
+                const signUpFormModal = document.getElementById('signUpFormModal');
+                signUpFormModal.showModal();
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const openSignInDialog = urlParams.get('openSignInDialog');
+
+            if (openSignInDialog === 'true') {
+                const loginFormModal = document.getElementById('loginFormModal');
+                loginFormModal.showModal();
+            }
+        });
+    </script>
 
     <script src="./bootstrap/js/bootstrap.bundle.js"></script>
     <script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
