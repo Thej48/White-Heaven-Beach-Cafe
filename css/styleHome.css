@@ -228,20 +228,44 @@ input[type=tel]:focus {
     background-color: #FF9F14;
     border: none;
     outline: none;
-    /* padding: 6.5px;
-    border-radius: 5px;
-    width: 100%;
-    gap: 5px; */
     color: white;
-    /* font-size: large;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    justify-content: center; */
 }
 
 .AddToCartBtn:active {
     box-shadow: 0px 0px 3px #a7a7a7;
+}
+
+.categoryCardsDiv{
+    display: flex;
+    overflow-x: scroll !important;
+    width: 100%;
+}
+
+.FoodItemImg{
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    border: 0.5px solid lightgrey;
+}
+
+.categoryCard{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    background-color: white;
+    align-items: center;
+    justify-content: start;
+    border: 2px outset white;
+}
+
+.FcActive {
+    border: 2px inset whitesmoke;
+    background-color: #dcdcdc;
+}
+
+.categoryHeader{
+    width: max-content;
 }
 
 @media (min-width:1000px) {
