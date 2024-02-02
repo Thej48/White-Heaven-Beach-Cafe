@@ -95,15 +95,36 @@ if (!isset($_SESSION['AuthEndUser'])) {
             <?php } ?>
         </div>
 
-        <div class="bottomNavBarDiv m-0 p-0 bg-secondary d-flex">
-            <a href="./logoutEndUser.php">logout</a>
-            <h1 class="p-0 m-0 text-center text-white">Bottom Navigation Bar</h1>
+        <div class="bottomNavBarDiv rounded-top m-0 p-0 d-flex">
+            <ul class="BottomNavMenu p-0 m-0 py-2">
+                <li class="BottomMenuItem d-flex flex-column align-items-center justify-content-center " onclick="document.location.href='./menu.php?tableNo=<?php echo $tableNo; ?>'">
+                    <img src="./icons/menu_inactive.png" width="20" height="20" alt="menu" id="MenuIcon">
+                    <span class="" id="MenuText">Menu</span>
+                </li>
+                <li class="BottomMenuItem d-flex flex-column align-items-center justify-content-center " onclick="document.location.href='./cart.php?tableNo=<?php echo $tableNo; ?>'">
+                    <img src="./icons/trolley_inactive.png" width="20" height="20" alt="cart" id="CartIcon">
+                    <span class="" id="CartText">Cart</span>
+                </li>
+                <li class="BottomMenuItem d-flex flex-column align-items-center justify-content-center " onclick="document.location.href='./orders.php?tableNo=<?php echo $tableNo; ?>'">
+                    <img src="./icons/take-away_inactive.png" width="20" height="20" alt="orders" id="OrderIcon">
+                    <span class="" id="OrderText">Orders</span>
+                </li>
+                <li class="BottomMenuItem d-flex flex-column align-items-center justify-content-center " onclick="document.location.href='./profile.php?tableNo=<?php echo $tableNo; ?>'">
+                    <img src="./icons/account_inactive.png" width="20" height="20" alt="profile" id="ProfileIcon">
+                    <span class="" id="ProfileText">Profile</span>
+                </li>
+            </ul>
         </div>
 
     </div>
 
 
 
+    <!-- ICON ACTIVE CODE -->
+    <script>
+        document.getElementById('MenuIcon').src = './icons/menu_active.png';
+        document.getElementById('MenuText').style.color = "white";
+    </script>
 
 
 
