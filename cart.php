@@ -66,8 +66,8 @@ if (!isset($_SESSION['AuthEndUser'])) {
 
     <!-- ICON ACTIVE CODE -->
     <script>
-        document.getElementById('MenuIcon').src = './icons/menu_active.png';
-        document.getElementById('MenuText').style.color = "white";
+        document.getElementById('CartIcon').src = './icons/trolley_active.png';
+        document.getElementById('CartText').style.color = "white";
     </script>
 
 
