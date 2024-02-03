@@ -13,6 +13,8 @@ if (!isset($_SESSION['AuthEndUser'])) {
 }
 
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -86,9 +88,18 @@ if (!isset($_SESSION['AuthEndUser'])) {
                                     <input type="text" name="FoodTotalPrice" id="FoodTotalPrice" class="FoodTotalPrice text-end h-100 w-100" value="₹ <?php echo number_format($data['price'], 2) ?>" readonly>
                                 </div>
                             </div>
-                            <button class="AddToCartBtn d-flex align-items-center justify-content-center gap-1 rounded-1 mt-2 py-1 fs-5 fw-medium">
-                                Add To Cart <img src="./icons/addToCart.png" alt="addtocart" width="23" height="23" class="AddToCartIcon">
-                            </button>
+                            <form action="./cart.php?tableNo=<?= $tableNo; ?>&id=<?= $data['id']; ?>" method="post">
+                                <input type="text" name="FoodItemID" id="FoodItemID" class="FoodItemID" value="<?= $data['id']; ?>" readonly hidden>
+                                <input type="text" name="FoodItemName" id="FoodItemName" class="FoodItemName" value="<?= $data['food_name']; ?>" readonly hidden>
+                                <input type="text" name="FoodItemCategory" id="FoodItemCategory" class="FoodItemCategory" value="<?= $data['category_name']; ?>" readonly hidden>
+                                <input type="text" name="FoodItemPrice" id="FoodItemPrice" class="FoodItemPrice" value="<?= $data['price']; ?>" readonly hidden>
+                                <input type="text" name="FoodItemQuantity" id="FoodItemQuantity" class="FoodItemQuantity" value="1" readonly hidden>
+                                <input type="text" name="FoodItemTotalPrice" id="FoodItemTotalPrice" class="FoodItemTotalPrice" value="<?= $data['price']; ?>" readonly hidden>
+                                <button type="submit" name="AddToCartBtn" class="AddToCartBtn d-flex align-items-center justify-content-center w-100 gap-1 rounded-1 mt-2 py-1 fs-5 fw-medium">
+                                    Add To Cart <img src="./icons/addToCart.png" alt="addtocart" width="23" height="23" class="AddToCartIcon">
+                                </button>
+                            </form>
+
                         </div>
                     <?php } ?>
                 </div>
@@ -229,6 +240,20 @@ if (!isset($_SESSION['AuthEndUser'])) {
                 var price = parseFloat(priceInput.val());
                 quantityCountInput.val(quantityCount);
                 priceTxtInput.val('₹ ' + (quantityCount * price).toFixed(2));
+
+                var FoodItemQuantity = container.find('.FoodItemQuantity');
+                var FoodItemPrice = container.find('.FoodItemPrice');
+                var FoodItemTotalPrice = container.find('.FoodItemTotalPrice');
+
+                var FoodItemQuantityCount = parseInt(FoodItemQuantity.val()) + change;
+                if (FoodItemQuantityCount < 1) {
+                    FoodItemQuantityCount = 1;
+                }
+
+                var FoodItemPriceValue = parseFloat(FoodItemPrice.val());
+                FoodItemQuantity.val(FoodItemQuantityCount);
+                FoodItemTotalPrice.val((FoodItemQuantityCount * FoodItemPriceValue).toFixed(2));
+
             }
         });
     </script>
