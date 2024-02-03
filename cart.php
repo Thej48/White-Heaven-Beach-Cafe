@@ -17,9 +17,13 @@ if (!isset($_SESSION['AuthEndUser'])) {
 
 
 <?php
+// Use user-specific cart session key
+$userId = isset($_SESSION['UserID']) ? $_SESSION['UserID'] : null;
+$cartKey = ($userId) ? 'cart_' . $userId : '';
+
 if (isset($_POST['AddToCartBtn'])) {
-    if (isset($_SESSION['cart'])) {
-        $session_array_id = array_column($_SESSION['cart'], "id");
+    if (isset($_SESSION[$cartKey])) {
+        $session_array_id = array_column($_SESSION[$cartKey], "id");
 
         if (!in_array($_GET['id'], $session_array_id)) {
             $session_array = array(
@@ -31,7 +35,7 @@ if (isset($_POST['AddToCartBtn'])) {
                 "total_price" => $_POST['FoodItemTotalPrice']
             );
 
-            $_SESSION['cart'][] = $session_array;
+            $_SESSION[$cartKey][] = $session_array;
         }
     } else {
         $session_array = array(
@@ -43,7 +47,7 @@ if (isset($_POST['AddToCartBtn'])) {
             "total_price" => $_POST['FoodItemTotalPrice']
         );
 
-        $_SESSION['cart'][] = $session_array;
+        $_SESSION[$cartKey][] = $session_array;
     }
 }
 ?>
@@ -79,64 +83,65 @@ if (isset($_POST['AddToCartBtn'])) {
         <div class="CartItemCardsDiv h-100 overflow-auto border border-danger p-2 ">
 
             <?php
-            // var_dump($_SESSION['cart']);  // Debugging line, check what values are received in $_POST
             $OutPut = "";
 
+            // Get the user's ID and use it to form the cart session key
+            $userId = isset($_SESSION['UserID']) ? $_SESSION['UserID'] : null;
+            $cartKey = ($userId) ? 'cart_' . $userId : '';
 
-            if (!empty($_SESSION['cart'])) {
-                foreach ($_SESSION['cart'] as $key => $value) {
-                    $getImageID = $value['id'];
-                    $getImage = "SELECT * FROM food_item WHERE id='$getImageID' ";
+            // Check if the user-specific cart session variable exists
+            if ($cartKey && !empty($_SESSION[$cartKey])) {
+                foreach ($_SESSION[$cartKey] as $key => $value) {
+                    $foodItemId = $value['id'];
+                    $getImage = "SELECT * FROM food_item WHERE id='$foodItemId' ";
                     $getImageRun = mysqli_query($conn, $getImage);
                     $row = $getImageRun->fetch_assoc();
                     $foodImage = base64_decode($row['food_image']);
-                    $OutPut .= " 
-                        <div class='CartItemCard border border-info my-1 gap-3 py-2 d-flex align-items-center'>
-                            <img src='data:image;base64," . base64_encode($foodImage) . "' alt='food_image' class='CartFoodImg rounded'>
-                            <div class='CartItemInfoDiv d-flex align-items-center gap-5'>
-                                <div class='CartItemNameDiv'>
-                                    <h1 class='fs-5 p-0 m-0 fw-bold'>" . $value['food_name'] . "</h1>
-                                    <h1 class='fs-5 p-0 m-0 fw-medium'>" . $value['category_name'] . "</h1>
-                                </div>
-                                <div class='CartItemQuantityControlDiv'>
-                                    <input name='CartItemQualityCount' class='CartItemQualityCount' id='CartItemQualityCount' value='" . $value['quantity'] . "' readonly/>
-                                </div>
-                                <div class='CartItemPriceDiv'>
-                                    <h1 class='fs-5 p-0 m-0 fw-medium'>₹ " . number_format($value['price'],2) . "</h1>
-                                    <h1 class='fs-5 p-0 m-0 fw-medium'>₹ " . number_format($value['total_price'],2) . "</h1>
-                                </div>
-
-                            </div>
+                    $OutPut .= "
+                <div class='CartItemCard border border-info my-1 gap-3 py-2 d-flex align-items-center'>
+                    <img src='data:image;base64," . base64_encode($foodImage) . "' alt='food_image' class='CartFoodImg rounded'>
+                    <div class='CartItemInfoDiv d-flex align-items-center gap-5'>
+                        <div class='CartItemNameDiv'>
+                            <h1 class='fs-5 p-0 m-0 fw-bold'>" . $value['food_name'] . "</h1>
+                            <h1 class='fs-5 p-0 m-0 fw-medium'>" . $value['category_name'] . "</h1>
                         </div>
-                        ";
+                        <div class='CartItemQuantityControlDiv'>
+                            <input name='CartItemQualityCount' class='CartItemQualityCount' id='CartItemQualityCount' value='" . $value['quantity'] . "' readonly/>
+                        </div>
+                        <div class='CartItemPriceDiv'>
+                            <h1 class='fs-5 p-0 m-0 fw-medium'>₹ " . number_format($value['price'], 2) . "</h1>
+                            <h1 class='fs-5 p-0 m-0 fw-medium'>₹ " . number_format($value['total_price'], 2) . "</h1>
+                        </div>
+                    </div>
+                </div>
+            ";
                 }
             }
 
             echo $OutPut;
             ?>
 
-
-            <button class="btn btn-dark btn-block btn-outline" onclick="document.location.href='./logoutEndUser.php'">Logout</button>
         </div>
+
 
 
         <div class="bottomNavBarDiv rounded-top m-0 p-0 d-flex">
             <ul class="BottomNavMenu p-0 m-0 py-2">
                 <li class="BottomMenuItem d-flex flex-column align-items-center justify-content-center " onclick="document.location.href='./menu.php?tableNo=<?php echo $tableNo; ?>'">
                     <img src="./icons/menu_inactive.png" width="20" height="20" alt="menu" id="MenuIcon">
-                    <span class="" id="MenuText">Menu</span>
+                    <span class="user-select-none" id="MenuText">Menu</span>
                 </li>
                 <li class="BottomMenuItem d-flex flex-column align-items-center justify-content-center " onclick="document.location.href='./cart.php?tableNo=<?php echo $tableNo; ?>'">
                     <img src="./icons/trolley_inactive.png" width="20" height="20" alt="cart" id="CartIcon">
-                    <span class="" id="CartText">Cart</span>
+                    <span class="user-select-none" id="CartText">Cart</span>
                 </li>
                 <li class="BottomMenuItem d-flex flex-column align-items-center justify-content-center " onclick="document.location.href='./orders.php?tableNo=<?php echo $tableNo; ?>'">
                     <img src="./icons/take-away_inactive.png" width="20" height="20" alt="orders" id="OrderIcon">
-                    <span class="" id="OrderText">Orders</span>
+                    <span class="user-select-none" id="OrderText">Orders</span>
                 </li>
                 <li class="BottomMenuItem d-flex flex-column align-items-center justify-content-center " onclick="document.location.href='./profile.php?tableNo=<?php echo $tableNo; ?>'">
                     <img src="./icons/account_inactive.png" width="20" height="20" alt="profile" id="ProfileIcon">
-                    <span class="" id="ProfileText">Profile</span>
+                    <span class="user-select-none" id="ProfileText">Profile</span>
                 </li>
             </ul>
         </div>

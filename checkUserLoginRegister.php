@@ -59,9 +59,13 @@ if (isset($_POST['userSignInBtn'])) {
         $data = mysqli_fetch_array($checkForUserRun);
 
         if ($checkUserCount == 1) {
-            $endUserSessionID = session_id();
-            $_SESSION['AuthEndUser'] = $endUserSessionID;
+            // Generate md5 hash for the user_id
+            $userIdMd5Hash = md5($data['user_id']);
+
+            // Set md5 hash as the session_id
+            session_id($userIdMd5Hash);
             // PASS USER DETAILS
+            $_SESSION['AuthEndUser'] = $userIdMd5Hash;
             $_SESSION['UserID'] = $data['user_id'];
             $_SESSION['UserName'] = $data['username'];
             $_SESSION['UserPhone'] = $data['user_phone'];
