@@ -98,20 +98,22 @@ if (isset($_POST['AddToCartBtn'])) {
                     $row = $getImageRun->fetch_assoc();
                     $foodImage = base64_decode($row['food_image']);
                     $OutPut .= "
-                <div class='CartItemCard border border-info my-1 gap-3 py-2 d-flex align-items-center'>
+                <div class='CartItemCard border border-info my-1  py-2 d-flex align-items-center gap-2'>
                     <img src='data:image;base64," . base64_encode($foodImage) . "' alt='food_image' class='CartFoodImg rounded'>
-                    <div class='CartItemInfoDiv d-flex align-items-center gap-5'>
-                        <div class='CartItemNameDiv'>
+                    <div class='CartItemInfoDiv d-flex flex-column  gap-1 bg-info-subtle'>
                             <h1 class='fs-5 p-0 m-0 fw-bold'>" . $value['food_name'] . "</h1>
-                            <h1 class='fs-5 p-0 m-0 fw-medium'>" . $value['category_name'] . "</h1>
-                        </div>
-                        <div class='CartItemQuantityControlDiv'>
-                            <input name='CartItemQualityCount' class='CartItemQualityCount' id='CartItemQualityCount' value='" . $value['quantity'] . "' readonly/>
-                        </div>
-                        <div class='CartItemPriceDiv'>
-                            <h1 class='fs-5 p-0 m-0 fw-medium'>₹ " . number_format($value['price'], 2) . "</h1>
+                            <h1 class='fs-6 p-0 m-0 fw-medium'>" . $value['category_name'] . "</h1>
+                            <div class='cartItemQuantityControlDiv rounded gap-2 p-0 m-0 d-flex align-items-center bg-secondary-subtle'>
+                                <button class='MinusBtnCart p-2 border border-secondary rounded m-0'>
+                                    <img src='./icons/minus.png' alt='minus' class='MinusIconCart'/>
+                                </button>
+                                <h1 class='CartItemQualityCount h4 p-0 m-0' id='CartItemQualityCount'>" . $value['quantity'] . "</h1>
+                                <button class='PlusBtnCart p-2 border border-secondary rounded m-0'>
+                                    <img src='./icons/plus.png' alt='plus' class='PlusIconCart'/>
+                                </button>
+                            </div>
+                            <h1 class='fs-5 p-0 m-0 fw-medium' hidden>₹ " . number_format($value['price'], 2) . "</h1>
                             <h1 class='fs-5 p-0 m-0 fw-medium'>₹ " . number_format($value['total_price'], 2) . "</h1>
-                        </div>
                     </div>
                 </div>
             ";

@@ -235,13 +235,13 @@ input[type=tel]:focus {
     box-shadow: 0px 0px 3px #a7a7a7;
 }
 
-.categoryCardsDiv{
+.categoryCardsDiv {
     display: flex;
     overflow-x: scroll !important;
     width: 100%;
 }
 
-.FoodItemImg{
+.FoodItemImg {
     width: 100%;
     height: 100%;
     aspect-ratio: 1/1;
@@ -249,7 +249,7 @@ input[type=tel]:focus {
     border: 0.5px solid lightgrey;
 }
 
-.categoryCard{
+.categoryCard {
     display: flex;
     flex-direction: row;
     width: auto;
@@ -264,42 +264,42 @@ input[type=tel]:focus {
     background-color: #dcdcdc;
 }
 
-.categoryHeader{
+.categoryHeader {
     width: max-content;
 }
 
-.bottomNavBarDiv{
+.bottomNavBarDiv {
     background-color: #262626;
 }
 
-.BottomNavMenu{
+.BottomNavMenu {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     width: 100%;
     gap: 5px;
 }
 
-.BottomMenuItem{
+.BottomMenuItem {
     cursor: pointer;
 }
 
-.BottomMenuItem span{
+.BottomMenuItem span {
     color: #858585;
     font-size: small;
 }
 
-.CartFoodImg{
+.CartFoodImg {
     width: 120px;
     height: 120px;
     aspect-ratio: 1/1;
     object-fit: contain;
 }
 
-.ProfileHeaderTxt{
+.ProfileHeaderTxt {
     letter-spacing: 1px;
 }
 
-.userProfilePic{
+.userProfilePic {
     width: 180px;
     height: 180px;
     aspect-ratio: 1/1;
@@ -322,15 +322,37 @@ input[type=tel]:focus {
 /* For modern browsers */
 .user-select-none {
     user-select: none;
-  }
-  
-  /* For older browsers that support the vendor-prefixed property */
-  .user-select-none {
+}
+
+/* For older browsers that support the vendor-prefixed property */
+.user-select-none {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
+}
+
+.MinusBtnCart, .PlusBtnCart{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    border: none;
+    background-color: transparent;
+}
+
+.MinusIconCart, .PlusIconCart{
+    width: 15px;
+    height: 15px;
+}
+
+.cartItemQuantityControlDiv{
+    width: fit-content;
+}
+
+.cartItemQuantityControlDiv *{
+    height: 100%;
+}
 
 @media (min-width:1000px) {
     .homeContentBox {
