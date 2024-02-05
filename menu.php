@@ -15,6 +15,45 @@ if (!isset($_SESSION['AuthEndUser'])) {
 ?>
 
 
+<?php
+// Use user-specific cart session key
+$userId = isset($_SESSION['UserID']) ? $_SESSION['UserID'] : null;
+$cartKey = ($userId) ? 'cart_' . $userId : '';
+
+if (isset($_POST['AddToCartBtn'])) {
+    if (isset($_SESSION[$cartKey])) {
+        $session_array_id = array_column($_SESSION[$cartKey], "id");
+
+        if (!in_array($_GET['id'], $session_array_id)) {
+            $session_array = array(
+                'id' => $_GET['id'],
+                "food_name" => $_POST['FoodItemName'],
+                "category_name" => $_POST['FoodItemCategory'],
+                "price" => $_POST['FoodItemPrice'],
+                "quantity" => $_POST['FoodItemQuantity'],
+                "total_price" => $_POST['FoodItemTotalPrice']
+            );
+
+            $_SESSION[$cartKey][] = $session_array;
+        }
+    } else {
+        $session_array = array(
+            'id' => $_GET['id'],
+            "food_name" => $_POST['FoodItemName'],
+            "category_name" => $_POST['FoodItemCategory'],
+            "price" => $_POST['FoodItemPrice'],
+            "quantity" => $_POST['FoodItemQuantity'],
+            "total_price" => $_POST['FoodItemTotalPrice']
+        );
+
+        $_SESSION[$cartKey][] = $session_array;
+    }
+}
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -88,7 +127,7 @@ if (!isset($_SESSION['AuthEndUser'])) {
                                     <input type="text" name="FoodTotalPrice" id="FoodTotalPrice" class="FoodTotalPrice text-end h-100 w-100" value="₹ <?php echo number_format($data['price'], 2) ?>" readonly>
                                 </div>
                             </div>
-                            <form action="./cart.php?tableNo=<?= $tableNo; ?>&id=<?= $data['id']; ?>" method="post">
+                            <form action="./menu.php?tableNo=<?= $tableNo; ?>&id=<?= $data['id']; ?>" method="post">
                                 <input type="text" name="FoodItemID" id="FoodItemID" class="FoodItemID" value="<?= $data['id']; ?>" readonly hidden>
                                 <input type="text" name="FoodItemName" id="FoodItemName" class="FoodItemName" value="<?= $data['food_name']; ?>" readonly hidden>
                                 <input type="text" name="FoodItemCategory" id="FoodItemCategory" class="FoodItemCategory" value="<?= $data['category_name']; ?>" readonly hidden>

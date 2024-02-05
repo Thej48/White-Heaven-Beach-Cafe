@@ -16,44 +16,6 @@ if (!isset($_SESSION['AuthEndUser'])) {
 
 
 
-<?php
-// Use user-specific cart session key
-$userId = isset($_SESSION['UserID']) ? $_SESSION['UserID'] : null;
-$cartKey = ($userId) ? 'cart_' . $userId : '';
-
-if (isset($_POST['AddToCartBtn'])) {
-    if (isset($_SESSION[$cartKey])) {
-        $session_array_id = array_column($_SESSION[$cartKey], "id");
-
-        if (!in_array($_GET['id'], $session_array_id)) {
-            $session_array = array(
-                'id' => $_GET['id'],
-                "food_name" => $_POST['FoodItemName'],
-                "category_name" => $_POST['FoodItemCategory'],
-                "price" => $_POST['FoodItemPrice'],
-                "quantity" => $_POST['FoodItemQuantity'],
-                "total_price" => $_POST['FoodItemTotalPrice']
-            );
-
-            $_SESSION[$cartKey][] = $session_array;
-        }
-    } else {
-        $session_array = array(
-            'id' => $_GET['id'],
-            "food_name" => $_POST['FoodItemName'],
-            "category_name" => $_POST['FoodItemCategory'],
-            "price" => $_POST['FoodItemPrice'],
-            "quantity" => $_POST['FoodItemQuantity'],
-            "total_price" => $_POST['FoodItemTotalPrice']
-        );
-
-        $_SESSION[$cartKey][] = $session_array;
-    }
-}
-?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -128,8 +90,16 @@ if (isset($_POST['AddToCartBtn'])) {
                             </div>
                     ";
                 }
-            }else{
-                $OutPut .=' <h1 class="">Hello</h1> ';
+            } else {
+                $OutPut .= ' 
+                <div class="px-3 h-100 overflow-hidden d-flex flex-column align-items-center justify-content-center">
+                    <h1 class="h2 fw-bold text-dark-emphasis text-decoration-underline">Nothing to Show</h1>
+                    <p class="h6 w-100 lh-base text-dark-emphasis text-center">We\'re sorry, It\'s possible that there is no data to display at the moment. Please check back later.</p>
+                </div> ';
+                $disableCheckoutBtn = true;
+            ?>
+
+            <?php
             }
 
             echo $OutPut;
@@ -139,7 +109,7 @@ if (isset($_POST['AddToCartBtn'])) {
 
         <div class="totalAmountDivCart bg-white shadow-sm border-top border-secondary py-2 px-3 d-flex align-items-center">
             <h1 class="TotalAmountCartTitle fs-3 text-secondary-emphasis fw-bold w-50 m-0 p-0"><span id='totalAmount'></span></h1>
-            <input type="submit" class="w-50 rounded-1 p-1 fw-bold fs-5 cartCheckoutBtn" value="Checkout">
+            <input type="submit" class="w-50 rounded-1 p-1 fw-bold fs-5 cartCheckoutBtn" <?php if (isset($disableCheckoutBtn) && $disableCheckoutBtn) echo ' disabled'; ?> id="cartCheckoutBtn" value="Checkout">
         </div>
 
         <div class="bottomNavBarDiv rounded-top m-0 p-0 d-flex">
@@ -173,6 +143,25 @@ if (isset($_POST['AddToCartBtn'])) {
         document.getElementById('CartText').style.color = "white";
     </script>
 
+
+
+    <?php
+    if (isset($_GET['action'])) {
+        if ($_GET['action'] == "remove") {
+
+            foreach ($_SESSION[$cartKey] as $key => $value) {
+                if ($value['id'] == $_GET['id']) {
+                    unset($_SESSION[$cartKey][$key]);
+    ?>
+                    <script>
+                        window.location.href = "./cart.php?tableNo=<?= $tableNo; ?>";
+                    </script>
+    <?php
+                }
+            }
+        }
+    }
+    ?>
 
 
     <script>

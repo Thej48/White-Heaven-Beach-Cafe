@@ -168,7 +168,7 @@ if (!isset($_SESSION['authAdmin'])) {
                         </div> ";
                         } ?>
                             <div class='FoodCardsDivMsg overflow-auto py-2 px-3 flex-column h-100 align-items-center justify-content-center'>
-                                <h1 class='h2 fw-bolder text-decoration-underline'>Nothing to Show</h1>
+                                <h1 class='h2 fw-bold text-decoration-underline'>Nothing to Show</h1>
                                 <p class='h6 w-50 lh-base text-center'>We're sorry, but it looks like there are no details available for the food items at the moment. It's possible that there is no data to display. Please check back later.</p>
                             </div>
                     </div>
