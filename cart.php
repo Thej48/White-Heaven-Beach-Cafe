@@ -80,7 +80,7 @@ if (isset($_POST['AddToCartBtn'])) {
             <hr class="p-0 m-0">
         </div>
 
-        <div class="CartItemCardsDiv h-100 overflow-auto border border-danger p-2 ">
+        <div class="CartItemCardsDiv h-100 overflow-auto p-2 ">
 
             <?php
             $TotalAmount = 0;
@@ -100,46 +100,47 @@ if (isset($_POST['AddToCartBtn'])) {
                     $row = $getImageRun->fetch_assoc();
                     $foodImage = base64_decode($row['food_image']);
 
-
                     $OutPut .= "
-                    <div class='CartItemCard border border-secondary my-2 p-2 rounded-1 d-flex gap-3' data-food-id='" . $foodItemId . "'>
-                        <img src='data:image;base64," . base64_encode($foodImage) . "' alt='food_image' class='CartFoodImg rounded-1'>
-                        <div class='CartItemInfoDiv w-100 d-flex flex-column justify-content-between h-auto'>
-                            <div class=''>
-                                <h1 class='fs-6 p-0 m-0 fw-bold'>" . $value['food_name'] . "</h1>
-                                <h1 class='fs-6 p-0 m-0 fw-medium'>" . $value['category_name'] . "</h1>
-                            </div>    
-                            <div class='d-flex align-items-center justify-content-between w-100'>
-                                <div class='cartItemQuantityControlDiv border border-secondary-subtle rounded gap-2 p-0 m-0 d-flex align-items-center'>
-                                    <button name='MinusBtn' class='MinusBtnCart p-2 rounded m-0'>
-                                        <img src='./icons/minus.png' alt='minus' class='MinusIconCart'/>
-                                    </button>
-                                    <h1 class='CartItemQualityCount h5 fw-bold text-secondary-emphasis p-0 m-0' id='CartItemQualityCount'>" . $value['quantity'] . "</h1>
-                                    <button class='PlusBtnCart p-2 rounded m-0'>
-                                        <img src='./icons/plus.png' alt='plus' class='PlusIconCart'/>
+                            <div class='CartItemCard border border-secondary my-2 p-2 rounded-1 d-flex gap-3' data-food-id='" . $foodItemId . "'>
+                                <img src='data:image;base64," . base64_encode($foodImage) . "' alt='food_image' class='CartFoodImg rounded-1 border border-secondary-subtle'>
+                                <div class='CartItemInfoDiv w-100 d-flex flex-column justify-content-between h-auto'>
+                                    <div class=''>
+                                        <h1 class='fs-6 p-0 m-0 fw-bold'>" . $value['food_name'] . "</h1>
+                                        <h1 class='fs-6 p-0 m-0 fw-medium'>" . $value['category_name'] . "</h1>
+                                    </div>    
+                                    <div class='d-flex align-items-center justify-content-between w-100'>
+                                        <div class='cartItemQuantityControlDiv border border-secondary-subtle rounded gap-2 p-0 m-0 d-flex align-items-center'>
+                                            <button name='MinusBtn' class='MinusBtnCart p-2 rounded m-0 quantity-control-btn'>
+                                                <img src='./icons/minus.png' alt='minus' class='MinusIconCart'/>
+                                            </button>
+                                            <h1 class='CartItemQualityCount h5 fw-bold text-secondary-emphasis p-0 m-0' id='CartItemQualityCount'>" . $value['quantity'] . "</h1>
+                                            <button class='PlusBtnCart p-2 rounded m-0 quantity-control-btn'>
+                                                <img src='./icons/plus.png' alt='plus' class='PlusIconCart'/>
+                                            </button>
+                                        </div>
+                                        <h1 class='foodPriceCart fs-5 p-0 m-0 fw-medium' id='foodPriceCart' hidden>" . number_format($value['price'], 2) . "</h1>
+                                        <h1 class='foodTotalPriceCart fs-5 p-0 m-0 fw-bold total-price-element' id='foodTotalPriceCart'>₹ " . number_format($value['total_price'], 2) . "</h1>
+                                    </div>
+                                    <button onclick='document.location.href=\"./cart.php?tableNo=" . $tableNo . "&action=remove&id=" . $value['id'] . "\"' class='removeFromCartBtn d-flex align-items-center justify-content-center gap-1 shadow-sm p-1 lh-base fs-6 fw-medium rounded'>
+                                        <img src='./icons/trash.png' alt='remove' class='trashCanIconCart' /> Remove
                                     </button>
                                 </div>
-                                <h1 class='foodPriceCart fs-5 p-0 m-0 fw-medium' id='foodPriceCart' hidden>" . number_format($value['price'], 2) . "</h1>
-                                <h1 class='foodTotalPriceCart fs-5 p-0 m-0 fw-medium' id='foodTotalPriceCart'>₹ " . number_format($value['total_price'], 2) . "</h1>
                             </div>
-                            <button onclick='document.location.href=\"./cart.php?action=remove&id=" . $value['id'] . "\"' class='removeFromCartBtn d-flex align-items-center justify-content-center gap-1 shadow-sm p-1 lh-base fs-6 fw-medium rounded'>
-                                <img src='./icons/trash.png' alt='remove' class='trashCanIconCart' /> Remove
-                            </button>
-                        </div>
-                    </div>
-            ";
-                    $TotalAmount = $TotalAmount + $value['quantity']*$value['price'];
+                    ";
                 }
-                $OutPut .= " $TotalAmount ";
+            }else{
+                $OutPut .=' <h1 class="">Hello</h1> ';
             }
 
             echo $OutPut;
-            echo "<h1 id='totalAmount' >$TotalAmount</h1>";
             ?>
 
         </div>
 
-
+        <div class="totalAmountDivCart bg-white shadow-sm border-top border-secondary py-2 px-3 d-flex align-items-center">
+            <h1 class="TotalAmountCartTitle fs-3 text-secondary-emphasis fw-bold w-50 m-0 p-0"><span id='totalAmount'></span></h1>
+            <input type="submit" class="w-50 rounded-1 p-1 fw-bold fs-5 cartCheckoutBtn" value="Checkout">
+        </div>
 
         <div class="bottomNavBarDiv rounded-top m-0 p-0 d-flex">
             <ul class="BottomNavMenu p-0 m-0 py-2">
@@ -171,6 +172,39 @@ if (isset($_POST['AddToCartBtn'])) {
         document.getElementById('CartIcon').src = './icons/trolley_active.png';
         document.getElementById('CartText').style.color = "white";
     </script>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function updateTotalAmount() {
+                var totalPriceElements = document.getElementsByClassName('total-price-element');
+                var totalAmount = 0;
+
+                for (var i = 0; i < totalPriceElements.length; i++) {
+                    var price = parseFloat(totalPriceElements[i].innerText.replace('₹', '').replace(',', '').trim());
+                    totalAmount += price;
+                }
+
+                document.getElementById('totalAmount').textContent = '₹ ' + totalAmount.toFixed(2);
+            }
+
+            // Initial update
+            updateTotalAmount();
+
+            // Add event listeners to quantity control buttons
+            var quantityControlButtons = document.getElementsByClassName('quantity-control-btn');
+
+            for (var i = 0; i < quantityControlButtons.length; i++) {
+                quantityControlButtons[i].addEventListener('click', function() {
+                    // Delay the update slightly to allow the quantity to update
+                    setTimeout(updateTotalAmount, 50);
+                });
+            }
+        });
+    </script>
+
+
 
 
     <script>
