@@ -109,7 +109,9 @@ if (!isset($_SESSION['AuthEndUser'])) {
 
         <div class="totalAmountDivCart bg-white shadow-sm border-top border-secondary py-2 px-3 d-flex align-items-center">
             <h1 class="TotalAmountCartTitle fs-3 text-secondary-emphasis fw-bold w-50 m-0 p-0"><span id='totalAmount'></span></h1>
-            <input type="submit" class="w-50 rounded-1 p-1 fw-bold fs-5 cartCheckoutBtn" <?php if (isset($disableCheckoutBtn) && $disableCheckoutBtn) echo ' disabled'; ?> id="cartCheckoutBtn" value="Checkout">
+            <form action="./cart.php?tableNo=<?= $tableNo; ?>" method="POST" class="p-0 m-0 w-50">
+                <input type="submit" name="PlaceOrderBtn" class="w-100 rounded-1 p-1 fw-bold fs-5 cartCheckoutBtn" <?php if (isset($disableCheckoutBtn) && $disableCheckoutBtn) echo ' disabled'; ?> id="cartCheckoutBtn" value="Place Order">
+            </form>
         </div>
 
         <div class="bottomNavBarDiv rounded-top m-0 p-0 d-flex">
@@ -142,6 +144,53 @@ if (!isset($_SESSION['AuthEndUser'])) {
         document.getElementById('CartIcon').src = './icons/trolley_active.png';
         document.getElementById('CartText').style.color = "white";
     </script>
+
+
+
+    <!-- ORDER-FOOD CODE -->
+    <?php
+    if (isset($_POST['PlaceOrderBtn'])) {
+        if ($cartKey && !empty($_SESSION[$cartKey])) {
+            // Calculate total amount
+            $TotalOrderAmount = 0;
+            foreach ($_SESSION[$cartKey] as $key => $value) {
+                $TotalOrderAmount += $value['total_price'];
+            }
+            // Generate Custom Order ID
+            $UserId = $_SESSION['UserID'];
+            date_default_timezone_set('Asia/Kolkata');
+            $GetDate = date('dmy');
+            $CleanUID = str_replace(['WH', 'EU'], '', $UserId);
+            $UniqueOrderCode = mt_rand(10000000, 99999999);
+            $CustomOrderID = "OD" . $GetDate . $CleanUID . $UniqueOrderCode;
+            // Insert order details into the 'orders' table
+            $InsertOrderQuery = "INSERT INTO orders (user_id, order_id, total_amount) VALUES ('$UserId', '$CustomOrderID', '$TotalOrderAmount')";
+            $InsertOrderResult = mysqli_query($conn, $InsertOrderQuery);
+            if ($InsertOrderResult) {
+                // Retrieve the order ID of the inserted order
+                $OrderId = mysqli_insert_id($conn);
+                // Insert individual items into another table (order_items)
+                foreach ($_SESSION[$cartKey] as $key => $value) {
+                    $foodItemId = $value['id'];
+                    $foodItemName = $value['food_name'];
+                    $quantity = $value['quantity'];
+                    $price = $value['price'];
+
+                    $insertOrderItemQuery = "INSERT INTO order_items (order_id, food_item_id, food_item_name, quantity, price) VALUES ('$OrderId', '$foodItemId', '$foodItemName', '$quantity', '$price')";
+                    mysqli_query($conn, $insertOrderItemQuery);
+                }
+
+                // Clear the cart after successful order placement
+                unset($_SESSION[$cartKey]);
+    ?>
+                <script>
+                    window.location.href = "./cart.php?tableNo=<?= $tableNo; ?>";
+                </script>
+    <?php
+            }
+        }
+    }
+    ?>
 
 
 
