@@ -42,22 +42,28 @@ if (!isset($_SESSION['AuthEndUser'])) {
             <hr class="p-0 m-0">
         </div>
 
-        <div class="CartItemCardsDiv h-100 overflow-auto p-2 bg-secondary-subtle ">
+        <div class="CartItemCardsDiv h-100 overflow-auto py-2 bg-secondary-subtle ">
             <?php
             $userID = $_SESSION['UserID'];
             $getOrdersList = "SELECT * FROM orders WHERE user_id='$userID' ORDER BY id DESC";
             $getOrdersListRun = mysqli_query($conn, $getOrdersList);
             if ($getOrdersListRun->num_rows > 0) {
-                while ($OrderRow = $getOrdersListRun->fetch_assoc()) {
-                    $OrderEntryID = $OrderRow['id'];
-                    $getOrderItems = "SELECT * FROM order_items WHERE order_id='$OrderEntryID' ORDER BY id DESC";
-                    $getOrderItemsRun = mysqli_query($conn, $getOrderItems);
-                    if ($getOrderItemsRun->num_rows > 0) {
-                        while ($OrdItemRow = $getOrderItemsRun->fetch_assoc()) {
-                            echo ' <div class="card">'.$OrdItemRow['food_item_name'].'</div> ';
+                while ($OrderRow = $getOrdersListRun->fetch_assoc()) { ?>
+                    <div class="card p-2 m-2">
 
-                        }
-                    }
+                        <h1 class="h6 fw-bold">Order ID : <span class="fs-6 fw-medium"><?= $OrderRow['order_id']; ?></span></h1>
+                        <?php
+                        $OrderEntryID = $OrderRow['id'];
+                        $getOrderItems = "SELECT * FROM order_items WHERE order_id='$OrderEntryID' ORDER BY id DESC";
+                        $getOrderItemsRun = mysqli_query($conn, $getOrderItems);
+                        if ($getOrderItemsRun->num_rows > 0) {
+                            while ($OrdItemRow = $getOrderItemsRun->fetch_assoc()) { ?>
+                                <h1 class="h6"><?= $OrdItemRow['food_item_name']; ?></h1>
+                        <?php
+                            }
+                        } ?>
+                    </div>
+            <?php
                 }
             }
             ?>
