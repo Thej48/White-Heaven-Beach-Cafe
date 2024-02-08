@@ -49,7 +49,7 @@ if (!isset($_SESSION['AuthEndUser'])) {
             $getOrdersListRun = mysqli_query($conn, $getOrdersList);
             if ($getOrdersListRun->num_rows > 0) {
                 while ($OrderRow = $getOrdersListRun->fetch_assoc()) { ?>
-                    <div class="card p-2 m-2">
+                    <div class="card p-2 m-2 shadow-sm">
 
                         <h1 class="h6 fw-bold">Order ID : <span class="fs-6 fw-medium"><?= $OrderRow['order_id']; ?></span></h1>
                         <?php
@@ -59,6 +59,7 @@ if (!isset($_SESSION['AuthEndUser'])) {
                         if ($getOrderItemsRun->num_rows > 0) {
                             while ($OrdItemRow = $getOrderItemsRun->fetch_assoc()) { ?>
                                 <h1 class="h6"><?= $OrdItemRow['food_item_name']; ?></h1>
+                                <h1 class="h6"><?= $OrdItemRow['quantity']; ?></h1>
                         <?php
                             }
                         } ?>
